@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -12,52 +12,70 @@
 
     <title>Main</title>
     <style>
-        .hot{
-            background-color:green;
+        .hot {
+            background-color: green;
         }
-        .board{
-            background-color:black;
+
+        .board {
+            background-color: black;
         }
+
         .post {
             width: 95%;
             max-width: 500px;
-            margin: 20px auto 0px auto;
+            margin: 40px auto 40px auto;
             padding: 20px;
             box-shadow: 0px 0px 3px 0px gray;
 
             display: none;
         }
+
+        .post > content {
+            height: 60%;
+            width: 95%;
+            max-height: 200px;
+            max-width: 300px;
+            margin: 40px auto 40px auto;
+        }
+
     </style>
     <script>
-        function post_board(){
+        function post_board() {
             console.write("아직 구현중~")
         }
-            function open_box(){
+
+        function open_box() {
             $('#post-box').show()
         }
-        function close_box(){
+
+        function close_box() {
             $('#post-box').hide()
         }
     </script>
 </head>
 <body>
-    <button>profile</button>
-    <button onclick="open_box()">post</button>
-    <div class="post" id="post-box">
-        <input title>
-        <!--        이미지 넣기-->
-        <br>
-        <button type="button" class="btn btn-success" onclick="post_board()">post</button>
-        <button type="button" class="btn btn-secondary" onclick="close_box()">cancel</button>
+<button>profile</button>
+<button onclick="open_box()">post</button>
+<div class="post" id="post-box">
+    <input id="title" 제목 정거><br>
 
-    </div>
-    <div>
-        <div class="hot">hot post</div>
-        <div  class="board">
-            main board
-            <p>개시물 영역</p>
-        </div>
+    <label for="files">Select files:</label><br>
+    <input type="file" id="files" name="files" multiple><br><br>
 
+    <input id="content" 내용을 적어주세요><br>
+
+
+    <button type="button" class="btn btn-success" onclick="post_board()">post</button>
+    <button type="button" class="btn btn-secondary" onclick="close_box()">cancel</button>
+
+</div>
+<div>
+    <div class="hot">hot post</div>
+    <div class="board">
+        main board
+        <p>개시물 영역</p>
     </div>
+
+</div>
 </body>
 </html>
