@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>#스파르탄그램</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+          rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .mypic {
+            max-width: 3000px;
+            width: 100%;
+            height: 1000px;
+            margin: auto;
+
+            color: #0b0b0b;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mypost {
+            background-color: #e4e4e4;
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 20px auto;
+            background-color: rgba(117, 190, 218, 0.5)
+
+            box-shadow: 0px 0px 3px 0px black;
+            padding: 20px;
+        }
+
+        .mypost > button {
+            margin-top: 15px;
+        }
+
+        .mycards {
+            width: 95%;
+            max-width: 600px;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mybtns{
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+        .btn-outline-white{
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .btn{
+            outline-style: hidden;
+            color: #060000 ;
+            font-size: 30px;
+            margin-bottom: 400px;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            close_card();});
+
+        function save_list() {
+            let url = $('#url').val()
+            let star = $('#star').val()
+            let comment = $('#comment').val()
+
+            $.ajax({
+                type: 'POST',
+                url: '/homework',
+                data: {url_give: url, star_give: star, comment_give: comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+        function show_list() {
+            $.ajax({
+                type: "GET",
+                url: "/homework",
+                data: {},
+                success: function (response) {
+                    let rows = response['clothes']
+                    for(let i = 0; i < rows.length; i++){
+                        let title = rows[i]['title']
+                        let image = rows[i]['image']
+                        let star = rows[i]['star']
+                        let comment = rows[i]['comment']
+                        let star_count = '⭐'.repeat(star)
+
+                        let temp_html = `<div class="col">
+                                            <div class="card h-100">
+                                                <img src= ${image}
+                                                     class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${title}</h5>
+                                                    <p>${star_count}</p>
+                                                    <p class="mycomment">${comment}</p>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $('#my-cards').append(temp_html)
+                    }
+
+                }
+            });
+        }
+        function open_card() {
+            $('#post-box').show()
+            $('#btn-box').hide()
+        }
+        function close_card() {
+            $('#post-box').hide()
+            $('#btn-box').show()
+
+        }
+
+
+
+    </script>
+</head>
+<body>
+<div class="mypic">
+    <div class="btns" id="btn-box">
+    <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
+    <button onclick="open_card()" type="button" class="btn">회원 가입</button>
+        </div>
+<div class="test">
+<div class="mypost" id="post-box">
+    <div class="form-floating mb-3">
+
+        <p>ID: <input type=text></p>
+          <p>PW: <input type=text></p>
+    </div>
+
+
+    <div class="mybtns">
+        <button onclick="save_list()" type="button" class="btn-outline-white">로그인</button>
+        <button onclick="close_card()" type="button" class="btn-dark">새로고침 아이콘으로 바꿀게요</button>
+    </div>
+</div>
+<div class="mycards", id="my-cards">
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+    </div>
+</div>
+    </div>
+    </div>
+</body>
+
+</html>
