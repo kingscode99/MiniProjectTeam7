@@ -1,36 +1,25 @@
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
+
+from pymongo import MongoClient
+client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority')
+db = client.dbsparta
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route("/first", methods=["POST"])
-def login_post():
-    sample_receive = request.form['sample_give']
-    return jsonify({'msg': '등록 완료',sample_receive:'샘플샘플'})
-
-@app.route("/first", methods=["GET"])
-def login_get():
-    login_list = list(db.login.find({}, {'_id': False}))
-    return jsonify({'msg': '등록 완료',login_list:'샘플샘플'})
-
-@app.route("/first/main", methods=["POST"])
-def main_post():
-    sample_receive = request.form['sample_give']
-    return jsonify({'msg': '등록 완료', sample_receive:'샘플샘플'})
-
-@app.route("/first/main", methods=["GET"])
-def main_get():
-    post_list = list(db.login.find({}, {'_id': False}))
-    return jsonify({'msg': '등록 완료',post_list:'샘플샘플'})
 
 @app.route("/first/main/post", methods=["POST"])
 def main_post():
-    sample_receive = request.form['sample_give']
-    return jsonify({'msg': '등록 완료', sample_receive:'샘플샘플'})
+    title_receive = request.form['title_give']
+    comment_receive = request.form['comment_give']
+    doc = {'title': title_receive, 'comment': comment_receive}
+    db.projects.insert_one(doc)
+    return jsonify({'msg': '등록 완료!'})
 
-@app.route("/first/main/post", methods=["GET"])
-def main_get():
-    post_list = list(db.login.find({}, {'_id': False}))
-    return jsonify({'msg': '등록 완료',post_list:'샘플샘플'})
+
+if __name__ == '__main__':
+    app.run('0.0.0.0', port=5000, debug=True)
