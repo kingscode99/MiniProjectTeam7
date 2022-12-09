@@ -34,16 +34,16 @@
             let comment = $('#comment').val()
             console.log(title, comment)
             $.ajax({
-            type: "POST",
-            url: "/first/main/post",
-            data: {title_give: title, comment_give:comment},
-            success: function (response) {
-                alert(response['msg'])
-                window.location.reload()
-            }
-        })
-    }
-                function open_box(){
+                type: "POST",
+                url: "/first/main/post",
+                data: {title_give:title, comment_give:comment},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+            function open_box(){
                 $('#post-box').show()
             }
 
