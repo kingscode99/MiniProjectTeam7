@@ -2,86 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
     <title>Main</title>
     <style>
-        .hot {
-            background-color: green;
+        .hot{
+            background-color:green;
         }
-
-        .board {
-            background-color: black;
+        .board{
+            background-color:black;
         }
-
         .post {
             width: 95%;
             max-width: 500px;
-            margin: 10px auto 10px auto;
+            margin: 20px auto 0px auto;
             padding: 20px;
             box-shadow: 0px 0px 3px 0px gray;
-
             display: none;
         }
-
-        .content {
-            height: 60%;
-            width: 95%;
-            max-height: 200px;
-            max-width: 300px;
-            margin: auto auto auto auto;
-        }
-
     </style>
     <script>
-        function post_board() {
-            console.write("아직 구현중~")
+        function post_board(){
+            let title = $('#title').val()
+            let comment = $('#comment').val()
+            console.log(title, comment)
+            $.ajax({
+                type: "POST",
+                url: "/first/main/post",
+                data: {title_give:title, comment_give:comment},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
         }
-
-        function open_box() {
-            $('#post-box').show()
-        }
-
-        function close_box() {
-            $('#post-box').hide()
-        }
-
+            function open_box(){
+                $('#post-box').show()
+            }
+            function close_box() {
+                $('#post-box').hide()
+            }
     </script>
 </head>
 <body>
+    <button>profile</button>
+    <button onclick="open_box()">post</button>
+    <div class="post" id="post-box">
+        <input title id="title">
+        <input comment id="comment">
+        <!--        이미지 넣기-->
+        <br>
+        <button type="button" class="btn btn-success" onclick="post_board()">post</button>
+        <button type="button" class="btn btn-secondary" onclick="close_box()">cancel</button>
 
-<button>profile</button>
-<button onclick="open_box()">글 쓰기</button>
-<div class="post" id="post-box">
-    <input id="title" placeholder="제목"><br>
-    <textarea class="content" id="content" rows="5" cols="30">내용을 적어주세요.</textarea>
-    <br>
-    <div class="input-group mb-3">
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile04">
-    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-  </div>
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div>
-</div>
-    <button class="btn btn-success" onclick="post_board()">post</button>
-    <button class="btn btn-secondary" onclick="close_box()">cancel</button>
-
-</div>
-<div>
-    <div class="hot">hot post</div>
-    <div class="board">
-        main board
-        <p>게시물 영역</p>
     </div>
+    <div>
+        <div class="hot">hot post</div>
+        <div  class="board">
+            main board
+            <p>개시물 영역</p>
+        </div>
 
-</div>
+    </div>
 </body>
 </html>
