@@ -18,8 +18,20 @@
         .board{
             background-color:black;
         }
+        .post {
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 0px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 3px 0px gray;
+
+            display: none;
+        }
     </style>
     <script>
+        function post_board(){
+            console.write("아직 구현중~")
+        }
             function open_box(){
             $('#post-box').show()
         }
@@ -31,11 +43,13 @@
 <body>
     <button>profile</button>
     <button onclick="open_box()">post</button>
-    <div id="post-box">
+    <div class="post" id="post-box">
         <input title>
         <!--        이미지 넣기-->
-        <button>post</button>
-        <button onclick="close_box()">cancel</button>
+        <br>
+        <button type="button" class="btn btn-success" onclick="post_board()">post</button>
+        <button type="button" class="btn btn-secondary" onclick="close_box()">cancel</button>
+
     </div>
     <div>
         <div class="hot">hot post</div>
