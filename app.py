@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 
+//각자 파이몽고 url사용해 보세요!!
 from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
