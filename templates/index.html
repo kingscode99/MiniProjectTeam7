@@ -55,13 +55,9 @@
         }
 
         function change_profile(){
-            if($('#input_change_pw').val() == ""){
-                alert('비밀번호는 변경되지 않았습니다.')
-            }else {
                 let id = $('#input_id').val()
                 let change_pw = $('#input_change_pw').val()
                 let change_name = $('#input_change_name').val()
-                console.log(id, change_pw, change_name)
                 $.ajax({
                     type: "POST",
                     url: "/first/main/profile",
@@ -72,7 +68,6 @@
                     }
                 });
             }
-        }
     </script>
 </head>
 <body>
