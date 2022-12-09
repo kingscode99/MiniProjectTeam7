@@ -41,17 +41,43 @@
             });
         }
 
-        function open_box(){
+        function open_post_box(){
             $('#post-box').show()
         }
-        function close_box() {
+        function close_post_box() {
             $('#post-box').hide()
+        }
+        function open_profile_box(){
+            $('#profile-box').show()
+        }
+        function close_profile_box(){
+            $('#profile-box').hide()
+        }
+
+        function change_profile(){
+            if($('#input_change_pw').val() == ""){
+                alert('비밀번호는 변경되지 않았습니다.')
+            }else {
+                let id = $('#input_id').val()
+                let change_pw = $('#input_change_pw').val()
+                let change_name = $('#input_change_name').val()
+                console.log(id, change_pw, change_name)
+                $.ajax({
+                    type: "POST",
+                    url: "/first/main/profile",
+                    data: {id_give: id, pw_give: change_pw, name_give: change_name},
+                    success: function (response) {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
+                });
+            }
         }
     </script>
 </head>
 <body>
-    <button>profile</button>
-    <button onclick="open_box()">글 쓰기</button>
+    <button onclick="open_profile_box()">profile</button>
+    <button onclick="open_post_box()">글 쓰기</button>
     <div class="post" id="post-box">
         <input id="title" placeholder="제목">
         <br>
@@ -69,7 +95,29 @@
             </div>
         </div>
         <button class="btn btn-success" onclick="post_board()">post</button>
-        <button class="btn btn-secondary" onclick="close_box()">cancel</button>
+        <button class="btn btn-secondary" onclick="close_post_box()">cancel</button>
+    </div>
+
+    <div class="post" id="profile-box">
+        <p>프로필 수정하기</p>
+        <div>
+            <a>id를 입력하세요</a><input id="input_id">
+        </div>
+        <div>
+            <a>수정하실 비밀번호를 입력하세요</a><input id="input_change_pw">
+        </div>
+        <div>
+            <a>변경하실 닉네임을 입력해 주세요</a><input id="input_change_name">
+        </div>
+        <div>
+            <a>변경하실 프로필사진을 선택해주세요</a>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile04">
+                <label class="custom-file-label" for="inputGroupFile04"></label>
+            </div>
+        </div>
+        <button onclick="change_profile()">chage</button>
+        <button onclick="close_profile_box()">cancel</button>
     </div>
 
     <div>
