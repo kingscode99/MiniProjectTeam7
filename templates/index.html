@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<img src="C:\Users\jkary\Downloads\meatchilly.jpg"/>
 <head>
     <meta charset="UTF-8">
 
@@ -12,6 +13,13 @@
 
     <title>Main</title>
     <style>
+        .file_input {
+            width: 80px;
+            height: 40px;
+            margin: 5px auto 5px auto;
+            overflow: hidden;
+        }
+
         .hot {
             background-color: green;
         }
@@ -30,12 +38,12 @@
             display: none;
         }
 
-        .post > content {
+        .content {
             height: 60%;
             width: 95%;
             max-height: 200px;
             max-width: 300px;
-            margin: 40px auto 40px auto;
+            margin: auto auto auto auto;
         }
 
     </style>
@@ -51,22 +59,21 @@
         function close_box() {
             $('#post-box').hide()
         }
+
     </script>
 </head>
 <body>
+
 <button>profile</button>
-<button onclick="open_box()">post</button>
+<button onclick="open_box()">글 쓰기</button>
 <div class="post" id="post-box">
-    <input id="title" 제목 정거><br>
+    <input id="title" placeholder="제목"><br>
+    <label for="files">올려줄 파일 첨부하세요:</label>
+    <input type="file" class="file_input" id="files" name="files" multiple>
+    <textarea class="content" id="content" rows="5" cols="30">내용을 적어주세요.</textarea>
 
-    <label for="files">Select files:</label><br>
-    <input type="file" id="files" name="files" multiple><br><br>
-
-    <input id="content" 내용을 적어주세요><br>
-
-
-    <button type="button" class="btn btn-success" onclick="post_board()">post</button>
-    <button type="button" class="btn btn-secondary" onclick="close_box()">cancel</button>
+    <button class="btn btn-success" onclick="post_board()">post</button>
+    <button class="btn btn-secondary" onclick="close_box()">cancel</button>
 
 </div>
 <div>
