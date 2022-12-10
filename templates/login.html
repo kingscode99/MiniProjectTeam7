@@ -87,30 +87,32 @@
             close_card();
         });
 
+        // function log_in() {
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '/',
+        //         data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
+        //         success: function (response) {
+        //             alert(response['msg'])
+        //             window.location.reload()
+        //             if (response['result'] == 'success') {
+        //                     // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+        //                     // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+        //                     $.cookie('mytoken', response['token']);
+        //
+        //                     alert('로그인 완료!')
+        //                     window.location.href = '/'
+        //                 } else {
+        //                     // 로그인이 안되면 에러메시지를 띄웁니다.
+        //                     alert(response['msg'])
+        //                 }
+        //             }
+        //     })
+        // }
 
-
-        function log_in() {
-            $.ajax({
-                type: 'POST',
-                url: '/',
-                data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                    if (response['result'] == 'success') {
-                            // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
-                            // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
-                            $.cookie('mytoken', response['token']);
-
-                            alert('로그인 완료!')
-                            window.location.href = '/'
-                        } else {
-                            // 로그인이 안되면 에러메시지를 띄웁니다.
-                            alert(response['msg'])
-                        }
-                    }
-            })
-        }
+        function log_in(){
+            window.location.href = '/main'
+            }
 
         function sign_up(){
                 window.location.href = '/sign'
@@ -124,9 +126,7 @@
         function close_card() {
             $('#post-box').hide()
             $('#btn-box').show()
-
         }
-
 
     </script>
 </head>
