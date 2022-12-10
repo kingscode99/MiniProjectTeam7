@@ -9,7 +9,30 @@ db = client.dbsparta
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('login.html')
+
+@app.route('/sign', methods=["POST"])
+def sign_up():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+    name_receive = request.form['name_give']
+    nick_receive = request.form['nick_give']
+
+    doc = {       # 패스워드에 경우 해쉬값으로 저장해야하지만 일단은 뼈대 구축만 하겠다.
+        'id': id_receive,
+        'pw': pw_receive,
+        'name': name_receive,
+        'nick': nick_receive
+    }
+
+    db.min7_project.insert_one(doc)
+
+    return jsonify({'msg': '변경 완료!'})
+
+
+@app.route('/sign', methods=["get"])
+def show_sign():
+    return render_template('sign_up.html')
 
 
 @app.route('/first/main/profile', methods=['GET'])
