@@ -38,7 +38,7 @@
         function show_post() {
             $.ajax({
                 type: "GET",
-                url: "/first/main/profile",
+                url: "/main/profile",
                 data: {},
                 success: function (response) {
                     let post = response['posts']
@@ -86,7 +86,7 @@
             console.log(title, comment)
             $.ajax({
                 type: "POST",
-                url: "/first/main/post",
+                url: "/main/post",
                 data: {title_give: title, comment_give: comment},
                 success: function (response) {
                     alert(response["msg"])
@@ -117,7 +117,7 @@
             let change_name = $('#input_change_name').val()
             $.ajax({
                 type: "POST",
-                url: "/first/main/profile",
+                url: "/main/profile",
                 data: {id_give: id, pw_give: change_pw, name_give: change_name},
                 success: function (response) {
                     alert(response["msg"])
