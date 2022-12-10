@@ -92,7 +92,7 @@
         function log_in() {
             $.ajax({
                 type: 'POST',
-                url: '/first',
+                url: '/',
                 data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
                 success: function (response) {
                     alert(response['msg'])
@@ -113,12 +113,7 @@
         }
 
         function sign_up(){
-            $.ajax({
-                type: 'get',
-                url: '/first/sign_up', //맞는지 아닌지 모르겠음
-                data:{},
-
-            })
+                window.location.href = '/sign'
         }
 
         function open_card() {
