@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <meta name="viewport"
+          content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -11,11 +12,21 @@
             crossorigin="anonymous">
 
     </script>
+
+    <title>식사는 잡솼어? / 회원가입</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+          rel="stylesheet">
     <style>
-        .sign_up {
-            background-color: green;
+        * {
+            font-family: 'Noto Serif KR', serif;
+        }
 
-            margin-top: 200px;
+        .sign_title {
+
+            width: 100%;
+            height: 100px;
+            margin-top: 20px;
 
             display: flex;
             flex-direction: column;
@@ -23,10 +34,48 @@
             justify-content: center;
         }
 
-        .wrap {
-            background-color: green;
+        .profile_pic_out {
 
-            margin-top: 100px;
+            background-color: gray;
+            width: auto;
+            height: 150px;
+
+            margin-top: 10px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile_pic_in {
+
+            width: 150px;
+            height: 150px;
+
+            background-color: white;
+        }
+
+        .file-label {
+
+            background-color: gray;
+
+            width: 100px;
+            margin: 10px auto;
+            padding: 10px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 200px;
+        }
+
+        .file {
+            display: none;
+        }
+
+        .sign_box {
+            margin-top: 10px;
 
             display: flex;
             flex-direction: column;
@@ -34,25 +83,72 @@
             justify-content: center;
         }
 
+        .sign_box > button {
+            margin-right: 5px;
+
+
+        }
     </style>
+    <script>
+        function save_user() {
 
-    <title>식사는 잡솼? / 회원가입</title>
+            let id = $('#user_id').val();
+            let pw = $('#user_pw').val();
+            let name = $('#user_name').val();
+            let nick = $('#user_nick').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/sign',
+                data: {id_give: id, pw_give: pw, name_give: name, nick_give: nick},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.href = '/login'
+                }
+            })
+        }
+        function retern_page(){
+            window.location.href = '/login'}
+    </script>
 </head>
 
 <body>
-<div class="sign_up">
+<div class="sign_title">
     <h1>회원가입</h1>
 </div>
-<div class="wrap">
-    <div class="sign_box">
-        <p>아이디<br> <input type="text" name="user_id" value="아이디를 입력 하세요."></p>
-        <p>비밀번호<br> <input type="password" name="user_pw" value="비밀번호를 입력 하세요."></p>
-        <p>이름<br> <input type="text" name="user_name" value="이름을 입력 하세요."></p>
-        <p>닉네임<br> <input type="text" name="user_nick" value="닉네임을 입력 하세요."></p>
-        <br>
-        <button>회원 가입</button>
-        <button>가입 취소</button>
+
+<div class="profile_pic_out">
+    <div class="profile_pic_in">
+        프로필 사진 영역
     </div>
+</div>
+
+<label class="file-label" for="chooseFile">사진선택</label>
+<input onclick="" class="file" id="chooseFile" type="file" onchange="dropFile.handleFiles(this.files)"
+       accept="image/png, image/jpeg, image/gif">
+
+<div class="sign_box">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="user_id" placeholder="name@example.com">
+        <label for="floatingInput">아이디</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="user_pw" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+    </div>
+    <P>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="user_name" placeholder="name@example.com">
+        <label for="floatingInput">이름을 입력하세요</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="user_nick" placeholder="name@example.com">
+        <label for="floatingInput">닉네임을 입력하세요</label>
+    </div>
+    <br>
+    <button onclick="save_user()" type="button" class="btn btn-secondary">회원 가입</button>
+    <br>
+    <button onclick="retern_page()" type="button" class="btn btn-secondary">취소</button>
 </div>
 
 
