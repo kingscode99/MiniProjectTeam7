@@ -15,8 +15,10 @@
         }
 
         .profileShow {
-            max-width: 150px;
-            height: 40px;
+            width: 70%;
+            margin: 20px auto 0px auto;
+            padding: 20px 150px 20px 150px;
+            box-shadow: 0px 0px 3px 0px gray;
         }
 
         .post {
@@ -46,6 +48,7 @@
                         let title = post[i]['title']
                         let comment = post [i]['comment']
                         let temp_html = `
+<div class="profileShow">
                             <div style="height:60px; width:200px;">
                                 <div class="card mb-3">
                                     <div class="row g-0">
@@ -69,6 +72,7 @@
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                               </div>
                             </div>
+</div>
               `
                         $('#post_board').append(temp_html)
                     }
