@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority')
+
+import certifi
+ca = certifi.where();
+
+client = MongoClient('mongodb+srv://test:sparta@cluster0.nlofzws.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.dbsparta
 
 @app.route('/')
@@ -30,10 +34,13 @@ def sign_up():
 @app.route('/sign', methods=["GET"])
 def show_sign():
     return render_template('sign_up.html')
+@app.route('/login', methods=["GET"])
+def show_login():
+    return render_template('login.html')
 
 @app.route('/main',methods=["get"])
 def show_main(): # 로그인 성공시 main으로 가는지 확인하기 위함
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5001, debug=True)
