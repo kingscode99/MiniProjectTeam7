@@ -87,7 +87,7 @@
             close_card();
         });
 
-        
+
 
         function log_in() {
             $.ajax({
@@ -97,23 +97,28 @@
                 success: function (response) {
                     alert(response['msg'])
                     window.location.reload()
-                }
+                    if (response['result'] == 'success') {
+                            // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                            // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                            $.cookie('mytoken', response['token']);
+
+                            alert('로그인 완료!')
+                            window.location.href = '/'
+                        } else {
+                            // 로그인이 안되면 에러메시지를 띄웁니다.
+                            alert(response['msg'])
+                        }
+                    }
             })
         }
 
-        function show_list() {
+        function sign_up(){
             $.ajax({
-                type: "GET",
-                url: "/homework",
-                data: {},
-                success: function (response) {
-                    let rows = response['clothes']
-                    for (let i = 0; i < rows.length; i++) {
+                type: 'get',
+                url: '/first/sign_up', //맞는지 아닌지 모르겠음
+                data:{},
 
-                    }
-
-                }
-            });
+            })
         }
 
         function open_card() {
@@ -134,7 +139,7 @@
 <div class="mypic">
     <div class="btns" id="btn-box">
         <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
-        <button type="button" class="btn">회원 가입</button>
+        <button onclick="sign_up()" type="button" class="btn">회원 가입</button>
     </div>
     <div class="test">
 
