@@ -2,18 +2,53 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 
-#각자 파이몽고 url사용해 보세요!!
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@cluster0.pkogdim.mongodb.net/?retryWrites=true&w=majority')
+
+
+import certifi
+ca = certifi.where();
+client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority',tlsCAFile=ca)
+
 db = client.dbsparta
 
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('login.html')
 
 
-@app.route("/first/main/post", methods=["POST"])
+@app.route('/sign', methods=["POST"])
+def sign_up():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+    name_receive = request.form['name_give']
+    nick_receive = request.form['nick_give']
+
+    doc = {       # 패스워드에 경우 해쉬값으로 저장해야하지만 일단은 뼈대 구축만 하겠다.
+        'id': id_receive,
+        'pw': pw_receive,
+        'name': name_receive,
+        'nick': nick_receive
+    }
+
+    db.min7_project.insert_one(doc)
+
+    return jsonify({'msg': '변경 완료!'})
+
+
+@app.route('/sign', methods=["get"])
+def show_sign():
+    return render_template('sign_up.html')
+
+
+@app.route('/main/profile', methods=['GET'])
+def test_get():
+    user_list = list(db.users.find({}, {'_id': False}))
+    post_list = list(db.projects.find({}, {'_id': False}))
+    return jsonify({'users': user_list, 'posts': post_list})
+
+
+@app.route("/main/post", methods=["POST"])
 def main_post():
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
@@ -22,7 +57,7 @@ def main_post():
     return jsonify({'msg': '등록 완료!'})
 
 
-@app.route("/first/main/profile", methods=["POST"])
+@app.route("/main/profile", methods=["POST"])
 def main_profile():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
@@ -47,6 +82,10 @@ def main_profile():
 
     return jsonify({'msg': '변경 완료!'})
 
+
+@app.route('/main', methods=["get"])
+def show_main():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
