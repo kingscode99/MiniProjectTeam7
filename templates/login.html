@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -22,17 +23,20 @@
         }
 
         .mypic {
-            max-width: 3000px;
-            width: 100%;
+            width: 99.94%;
+            max-height: 95%;
             height: 1000px;
             margin: auto;
-
-            color: #0b0b0b;
 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
+            background-image: linear-gradient(66deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQLxE7TesWgkcsH2wKRMz3WQO4sKNzt5_NuA&usqp=CAU');
+            background-position: center;
+            background-size: cover;
         }
 
         .mypost {
@@ -40,136 +44,113 @@
             width: 95%;
             max-width: 500px;
             margin: 20px auto 20px auto;
-            background-color: rgba(117, 190, 218, 0.5)
+            margin-bottom: 200px;
+            background-color: rgba(200, 200, 200, 0.5);
 
             box-shadow: 0px 0px 3px 0px black;
             padding: 20px;
         }
 
-        .mypost > button {
-            margin-top: 15px;
-        }
-
-        .mycards {
-            width: 95%;
-            max-width: 600px;
-            margin: auto;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mybtns{
+        .mybtns {
             margin-top: 10px;
             display: flex;
             flex-direction: row;
         }
-        .btn-outline-white{
-            padding: 10px;
-            border-radius: 10px;
-        }
 
-        .btn{
+        .btn {
             outline-style: hidden;
-            color: #060000 ;
+            color: black;
             font-size: 30px;
             margin-bottom: 400px;
+            margin: 40px 40px 400px;
+        }
+
+        .btn-light {
+            margin-left: 8px;
+            box-shadow: 3px 0px 5px 0px gray;
+            border: 0.8px solid gray;
+        }
+
+        .btns > button:hover{
+            font-size: 35px;
+        }
+        .input{
+            margin-top: 8px;
+            margin-right: 20px;
+            width: 240px;
         }
 
     </style>
+
     <script>
         $(document).ready(function () {
-            close_card();});
+            close_card();
+        });
 
-        function save_list() {
-            let url = $('#url').val()
-            let star = $('#star').val()
-            let comment = $('#comment').val()
+        // function log_in() {
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '/',
+        //         data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
+        //         success: function (response) {
+        //             alert(response['msg'])
+        //             window.location.reload()
+        //             if (response['result'] == 'success') {
+        //                     // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+        //                     // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+        //                     $.cookie('mytoken', response['token']);
+        //
+        //                     alert('로그인 완료!')
+        //                     window.location.href = '/'
+        //                 } else {
+        //                     // 로그인이 안되면 에러메시지를 띄웁니다.
+        //                     alert(response['msg'])
+        //                 }
+        //             }
+        //     })
+        // }
 
-            $.ajax({
-                type: 'POST',
-                url: '/homework',
-                data: {url_give: url, star_give: star, comment_give: comment},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            })
+        function log_in(){
+            window.location.href = '/main'
+            }
+
+        function sign_up(){
+                window.location.href = '/sign'
         }
 
-        function show_list() {
-            $.ajax({
-                type: "GET",
-                url: "/homework",
-                data: {},
-                success: function (response) {
-                    let rows = response['clothes']
-                    for(let i = 0; i < rows.length; i++){
-                        let title = rows[i]['title']
-                        let image = rows[i]['image']
-                        let star = rows[i]['star']
-                        let comment = rows[i]['comment']
-                        let star_count = '⭐'.repeat(star)
-
-                        let temp_html = `<div class="col">
-                                            <div class="card h-100">
-                                                <img src= ${image}
-                                                     class="card-img-top">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${title}</h5>
-                                                    <p>${star_count}</p>
-                                                    <p class="mycomment">${comment}</p>
-                                                </div>
-                                            </div>
-                                        </div>`
-                        $('#my-cards').append(temp_html)
-                    }
-
-                }
-            });
-        }
         function open_card() {
             $('#post-box').show()
             $('#btn-box').hide()
         }
+
         function close_card() {
             $('#post-box').hide()
             $('#btn-box').show()
-
         }
-
-
 
     </script>
 </head>
 <body>
 <div class="mypic">
     <div class="btns" id="btn-box">
-    <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
-    <button onclick="open_card()" type="button" class="btn">회원 가입</button>
+        <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
+        <button onclick="sign_up()" type="button" class="btn">회원 가입</button>
+    </div>
+    <div class="test">
+
+        <div class="mypost" id="post-box">
+            <div class="form-floating mb-3">
+                <input type=text class="input" id="userid" placeholder="ID">
+                <p><input type=text class="input" id="userpw" placeholder="PW"></p>
+            </div>
+
+            <div class="mybtns">
+                <button onclick="log_in()" type="button" class="btn-light">로그인</button>
+                <button onclick="close_card()" type="button" class="btn-light">취소</button>
+            </div>
         </div>
-<div class="test">
-<div class="mypost" id="post-box">
-    <div class="form-floating mb-3">
 
-        <p>ID: <input type=text></p>
-          <p>PW: <input type=text></p>
-    </div>
-
-
-    <div class="mybtns">
-        <button onclick="save_list()" type="button" class="btn-outline-white">로그인</button>
-        <button onclick="close_card()" type="button" class="btn-dark">새로고침 아이콘으로 바꿀게요</button>
-    </div>
-</div>
-<div class="mycards", id="my-cards">
-    <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
-    </div>
-</div>
-    </div>
+        </div>
     </div>
 </body>
 
