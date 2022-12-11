@@ -92,64 +92,56 @@
             close_card();
         });
 
-<<<<<<< HEAD
-        function log_in() {
-             $.ajax({
-                 type: "POST",
-                 url: "/api/login",
-                 data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
-                 success: function (response) {
-                     if (response['result'] == 'success') {
-                             // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
-                             // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
-                             $.cookie('token', response['token']);
-                             alert('스파르탄그램에서 일탈을 즐겨주세요🔥🔥🔥🔥🔥')
-                             window.location.href = '/main'
-                         } else {
-                             // 로그인이 안되면 에러메시지를 띄웁니다.
-                             alert(response['msg'])
-                         }
-                     }
-             })
-         }
-=======
         {% if msg %}
                 alert("{{ msg }}")
             {% endif %}
 
         function login() {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/login",
-                    data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
-                    success: function (response) {
-                        if (response['result'] == 'success') {
-                            // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
-                            // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
-                            $.cookie('mytoken', response['token']);
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                        // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                        $.cookie('mytoken', response['token']);
 
-                            alert('스파르탄그램에서 일탈을 즐겨주세요🔥🔥🔥🔥🔥')
-                            window.location.href = '/main'
-                        } else {
-                            // 로그인이 안되면 에러메시지를 띄웁니다.
-                            alert(response['msg'])
-                        }
+                        alert('스파르탄그램에서 일탈을 즐겨주세요🔥🔥🔥🔥🔥')
+                        window.location.href = '/main'
+                    } else {
+                        // 로그인이 안되면 에러메시지를 띄웁니다.
+                        alert(response['msg'])
                     }
-                })
-            }
->>>>>>> a9d80df25decbd1a14f357cca6b5ba5c8798c2b8
-
-        function page_back() {
-            window.location.href = '/'
+                }
+            })
         }
+
+        function open_card() {
+            $('#post-box').show()
+            $('#btn-box').hide()
+        }
+
+         function close_card() {
+            $('#post-box').hide()
+            $('#btn-box').show()
+        }
+
+         function sign_up(){
+                window.location.href = '/sign'
+         }
+
+
 
     </script>
 </head>
 <body>
 <div class="mypic">
-
+    <div class="btns" id="btn-box">
+        <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
+        <button onclick="sign_up()" type="button" class="btn">회원 가입</button>
+    </div>
     <div class="test">
-
         <div class="mypost" id="post-box">
             <div class="form-floating mb-3">
                 <input type=text class="input" id="userid" placeholder="ID">
@@ -157,13 +149,8 @@
             </div>
 
             <div class="mybtns">
-<<<<<<< HEAD
-                <button onclick="log_in()" type="button" class="btn-light">로그인</button>
-                <button onclick="page_back()" type="button" class="btn-light">취소</button>
-=======
                 <button onclick="login()" type="button" class="btn-light">로그인</button>
                 <button onclick="close_card()" type="button" class="btn-light">취소</button>
->>>>>>> a9d80df25decbd1a14f357cca6b5ba5c8798c2b8
             </div>
         </div>
 
