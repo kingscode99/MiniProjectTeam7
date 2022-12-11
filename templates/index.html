@@ -8,6 +8,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
     <title>Main</title>
     <style>
         .board {
@@ -35,18 +39,26 @@
             show_post();
         });
 
+        function logout(){
+            alert('로그아웃')
+            $.removeCookie('mytoken')
+            window.location.href='/login'
+        }
+
+
         function show_post() {
             $.ajax({
                 type: "GET",
-                url: "/main/profile",
+                url: "/api/board",
                 data: {},
                 success: function (response) {
                     let post = response['posts']
-                    let name = response['users']['name']
+                    let user = response['users']
                     console.log(post)
-                    for (let i = 0; i<post.length; i++) {
+                    for (let i = 0; i < post.length; i++) {
                         let title = post[i]['title']
-                        let comment = post [i]['comment']
+                        let comment = post[i]['comment']
+                        let nick = user[i]['nick']
                         let temp_html = `
                         <div class="profileShow">
                             <div style="height:60px; width:200px;">
@@ -58,7 +70,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div style="height:28px;">
-                                                <p>${name}</p>
+                                                <p>${nick}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +98,7 @@
             console.log(title, comment)
             $.ajax({
                 type: "POST",
-                url: "/main/post",
+                url: "/api/post",
                 data: {title_give: title, comment_give: comment},
                 success: function (response) {
                     alert(response["msg"])
@@ -114,22 +126,23 @@
         function change_profile() {
             let id = $('#input_id').val()
             let change_pw = $('#input_change_pw').val()
-            let change_name = $('#input_change_name').val()
+            let change_nick = $('#input_change_nick').val()
             $.ajax({
                 type: "POST",
-                url: "/main/profile",
-                data: {id_give: id, pw_give: change_pw, name_give: change_name},
+                url: "/api/profile/change",
+                data: {id_give: id, pw_give: change_pw, nick_give: change_nick},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
                 }
             });
         }
-        function delete_(){
+
+        function delete_() {
             let id = $('#input_id').val()
             $.ajax({
                 type: "POST",
-                url: "/main/profile/delete",
+                url: "/api/profile/delete",
                 data: {id_give: id},
                 success: function (response) {
                     alert(response["msg"])
@@ -140,6 +153,7 @@
     </script>
 </head>
 <body>
+<p>나의 닉네임은: {{ nickname }}</p>
 <button onclick="open_profile_box()">profile</button>
 <button onclick="open_post_box()">글 쓰기</button>
 <div class="post" id="post-box">
@@ -171,7 +185,7 @@
         <a>수정하실 비밀번호를 입력하세요</a><input id="input_change_pw">
     </div>
     <div>
-        <a>변경하실 닉네임을 입력해 주세요</a><input id="input_change_name">
+        <a>변경하실 닉네임을 입력해 주세요</a><input id="input_change_nick">
     </div>
     <div>
         <a>변경하실 프로필사진을 선택해주세요</a>
@@ -183,6 +197,7 @@
     <button onclick="change_profile()">chage</button>
     <button onclick="close_profile_box()">cancel</button>
     <button onclick="delete_()">탈퇴하기</button>
+    <button onclick="logout()">로그아웃</button>
 </div>
 
 <div>

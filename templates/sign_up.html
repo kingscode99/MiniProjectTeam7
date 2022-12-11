@@ -99,7 +99,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/sign',
+                url: '/api/sign',
                 data: {id_give: id, pw_give: pw, name_give: name, nick_give: nick},
                 success: function (response) {
                     alert(response['msg'])
