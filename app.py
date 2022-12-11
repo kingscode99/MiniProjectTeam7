@@ -11,6 +11,8 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/clu
 
 db = client.dbsparta
 
+import hashlib
+
 
 @app.route('/')
 def home():
@@ -62,17 +64,26 @@ def main_profile():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     name_receive = request.form['name_give']
-    # 이미지 받아오기
+    # 비밀번호를 sha256문자열로 바꿔주기
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    # 이미지 받아오기 코드 작성
+
+    if id_receive is '':
+        return jsonify({'msg': 'id를 입력하세요'})
+    elif db.users.find_one({'id': id_receive}) is None:
+        return jsonify({'msg': '일치하는 id가 없습니다.'})
+
     if pw_receive is '' and name_receive is '':
         return jsonify({'msg': '값을 입력하세요'})
 
     # 여기에 이미지 저장코드 작성하기
 
-    if pw_receive == db.users.find_one({'id': id_receive})['pw']:
+    if pw_hash == db.users.find_one({'id': id_receive})['pw']:
         return jsonify({'msg': '같은 비밀번호입니다.'})
 
     if pw_receive is not '':
-        db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_receive}})
+        db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_hash}})
 
     if name_receive == db.users.find_one({'id': id_receive})['name']:
         return jsonify({'msg': '같은 닉네임입니다.'})
@@ -81,6 +92,19 @@ def main_profile():
         db.users.update_one({'id': id_receive}, {'$set': {'name': name_receive}})
 
     return jsonify({'msg': '변경 완료!'})
+
+
+@app.route("/main/profile/delete", methods=["POST"])
+def main_profile_delete():
+    id_receive = request.form['id_give']
+    if id_receive is '':
+        return jsonify({'msg': 'id를 입력하세요'})
+    elif db.users.find_one({'id': id_receive}) is None:
+        return jsonify({'msg': '일치하는 id가 없습니다.'})
+    else:
+        db.users.delete_one({'id': id_receive})
+        return jsonify({'msg': '탈퇴가 완료되었습니다.'})
+
 
 
 @app.route('/main', methods=["get"])
