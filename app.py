@@ -40,7 +40,7 @@ def show_main():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"id": payload['id']})
+        user_info = db.min7_project.find_one({"id": payload['id']})
         return render_template('index.html', nickname=user_info["nick"], id=payload['id'])
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -63,7 +63,7 @@ def sign_up():
         'nick': nick_receive
     }
 
-    db.users.insert_one(doc)
+    db.min7_project.insert_one(doc)
 
     return jsonify({'msg': '가입 완료!'})
 
@@ -73,7 +73,7 @@ def login():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'id': id_receive, 'pw': pw_hash})
+    result = db.min7_project.find_one({'id': id_receive, 'pw': pw_hash})
     print(result)
     if result is not None:
         payload = {
@@ -88,7 +88,7 @@ def login():
 
 @app.route('/api/board', methods=['GET'])
 def board_get():
-    user_list = list(db.users.find({}, {'_id': False}))
+    user_list = list(db.min7_project.find({}, {'_id': False}))
     post_list = list(db.projects.find({}, {'_id': False}))
     return jsonify({'users': user_list, 'posts': post_list})
 
@@ -114,7 +114,7 @@ def profile_change():
 
     if id_receive == '':
         return jsonify({'msg': 'id를 입력하세요'})
-    elif db.users.find_one({'id': id_receive}) is None:
+    elif db.min7_project.find_one({'id': id_receive}) is None:
         return jsonify({'msg': '일치하는 id가 없습니다.'})
 
     if pw_receive == '' and nick_receive == '':
@@ -122,17 +122,17 @@ def profile_change():
 
     # 여기에 이미지 저장코드 작성하기
 
-    if pw_hash == db.users.find_one({'id': id_receive})['pw']:
+    if pw_hash == db.min7_project.find_one({'id': id_receive})['pw']:
         return jsonify({'msg': '같은 비밀번호입니다.'})
 
     if pw_receive != '':
-        db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_hash}})
+        db.min7_project.update_one({'id': id_receive}, {'$set': {'pw': pw_hash}})
 
-    if nick_receive == db.users.find_one({'id': id_receive})['nick']:
+    if nick_receive == db.min7_project.find_one({'id': id_receive})['nick']:
         return jsonify({'msg': '같은 닉네임입니다.'})
 
     if nick_receive != '':
-        db.users.update_one({'id': id_receive}, {'$set': {'nick': nick_receive}})
+        db.min7_project.update_one({'id': id_receive}, {'$set': {'nick': nick_receive}})
 
     return jsonify({'msg': '변경 완료!'})
 
@@ -142,10 +142,10 @@ def profile_delete():
     id_receive = request.form['id_give']
     if id_receive == '':
         return jsonify({'msg': 'id를 입력하세요'})
-    elif db.users.find_one({'id': id_receive}) is None:
+    elif db.min7_project.find_one({'id': id_receive}) is None:
         return jsonify({'msg': '일치하는 id가 없습니다.'})
     else:
-        db.users.delete_one({'id': id_receive})
+        db.min7_project.delete_one({'id': id_receive})
         return jsonify({'msg': '탈퇴가 완료되었습니다.'})
 
 
