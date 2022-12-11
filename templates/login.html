@@ -116,29 +116,17 @@
                     }
                 })
             }
+       
 
-        function sign_up(){
-                window.location.href = '/sign'
-        }
-
-        function open_card() {
-            $('#post-box').show()
-            $('#btn-box').hide()
-        }
-
-        function close_card() {
-            $('#post-box').hide()
-            $('#btn-box').show()
+        function page_back() {
+            window.location.href = '/'
         }
 
     </script>
 </head>
 <body>
 <div class="mypic">
-    <div class="btns" id="btn-box">
-        <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
-        <button onclick="sign_up()" type="button" class="btn">회원 가입</button>
-    </div>
+
     <div class="test">
 
         <div class="mypost" id="post-box">
@@ -148,8 +136,8 @@
             </div>
 
             <div class="mybtns">
-                <button onclick="login()" type="button" class="btn-light">로그인</button>
-                <button onclick="close_card()" type="button" class="btn-light">취소</button>
+                <button onclick="log_in()" type="button" class="btn-light">로그인</button>
+                <button onclick="page_back()" type="button" class="btn-light">취소</button>
             </div>
         </div>
 
