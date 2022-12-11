@@ -67,7 +67,7 @@ def def_sign():
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
-    doc = {  # 패스워드에 경우 해쉬값으로 저장해야하지만 일단은 뼈대 구축만 하겠다.
+    doc = {
         'id': id_receive,
         'pw': pw_hash,
         'name': name_receive,
