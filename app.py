@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient("mongodb+srv://lcoeda:#####@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nlofzws.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.test
 
 SECRET_KEY = 'SPARTA'
