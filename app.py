@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority',tlsCAFile=ca)
+client = MongoClient('mongodb+srv://test:sparta@cluster0.pkogdim.mongodb.net/?retryWrites=true&w=majority',tlsCAFile=ca)
 
 db = client.dbsparta
 
@@ -97,7 +97,8 @@ def board_get():
 def main_post():
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
-    doc = {'title': title_receive, 'comment': comment_receive}
+    country_receive = request.form['country_give']
+    doc = {'title': title_receive, 'comment': comment_receive,'country': country_receive}
     db.projects.insert_one(doc)
     return jsonify({'msg': '등록 완료!'})
 

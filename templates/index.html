@@ -24,11 +24,15 @@
             padding: 20px 150px 20px 150px;
             box-shadow: 0px 0px 3px 0px gray;
         }
+        .content {
+            width: 100%;
+            margin: 20px auto 20px auto;
+        }
 
         .post {
             width: 95%;
             max-width: 500px;
-            margin: 20px auto 0px auto;
+            margin: 10px auto 10px auto;
             padding: 20px;
             box-shadow: 0px 0px 3px 0px gray;
             display: none;
@@ -44,7 +48,6 @@
             $.removeCookie('mytoken')
             window.location.href='/login'
         }
-
 
         function show_post() {
             $.ajax({
@@ -93,13 +96,14 @@
         }
 
         function post_board() {
+            let country = $('#country').val()
             let title = $('#title').val()
             let comment = $('#comment').val()
             console.log(title, comment)
             $.ajax({
                 type: "POST",
                 url: "/api/post",
-                data: {title_give: title, comment_give: comment},
+                data: {title_give: title, comment_give: comment, country_give: country},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
@@ -157,21 +161,20 @@
 <button onclick="open_profile_box()">profile</button>
 <button onclick="open_post_box()">글 쓰기</button>
 <div class="post" id="post-box">
-    <input id="title" placeholder="제목">
+    <select class="form-select" id="country">
+      <option selected>어떤거 드셨나요?</option>
+      <option value="1">한식</option>
+      <option value="2">중식</option>
+      <option value="3">양식</option>
+      <option value="4">일식</option>
+      <option value="5">기타</option>
+    </select>
     <br>
-    <textarea class="content" id="comment" rows="5" cols="30" placeholder="내용을 적어주세요"></textarea>
+    <input id="title" size="35" placeholder="알려주세요">
+    <br>
+    <textarea class="content" id="comment" rows="6" placeholder="내용을 적어주세요"></textarea>
     <br>
 
-    <div class="input-group mb-3">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile04">
-            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-        </div>
-
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Button</button>
-        </div>
-    </div>
     <button class="btn btn-success" onclick="post_board()">post</button>
     <button class="btn btn-secondary" onclick="close_post_box()">cancel</button>
 </div>
