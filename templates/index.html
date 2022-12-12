@@ -24,7 +24,8 @@
             padding: 20px 150px 20px 150px;
             box-shadow: 0px 0px 3px 0px gray;
         }
-        .content {
+
+        .comment {
             width: 100%;
             margin: 20px auto 20px auto;
         }
@@ -41,12 +42,13 @@
     <script>
         $(document).ready(function () {
             show_post();
+            show_country();
         });
 
-        function logout(){
+        function logout() {
             alert('로그아웃')
             $.removeCookie('mytoken')
-            window.location.href='/login'
+            window.location.href = '/login'
         }
 
         function show_post() {
@@ -61,7 +63,7 @@
                     for (let i = 0; i < post.length; i++) {
                         let title = post[i]['title']
                         let comment = post[i]['comment']
-                        let nick = user[i]['nick']
+                        {#let nick = user[i]['nick']#}
                         let temp_html = `
                         <div class="profileShow">
                             <div style="height:60px; width:200px;">
@@ -73,7 +75,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div style="height:28px;">
-                                                <p>${nick}</p>
+{#                                                <p>${nick}</p>#}
                                             </div>
                                         </div>
                                     </div>
@@ -109,6 +111,21 @@
                     window.location.reload()
                 }
             });
+        }
+
+        function show_country() {
+            $.ajax({
+                type: "GET",
+                url: "/api/country",
+                data: {},
+                success: function (response) {
+                    $("#0").text(response[0]);
+                    $("#1").text(response[1]);
+                    $("#2").text(response[2]);
+                    $("#3").text(response[3]);
+                }
+            })
+
         }
 
         function open_post_box() {
@@ -162,17 +179,16 @@
 <button onclick="open_post_box()">글 쓰기</button>
 <div class="post" id="post-box">
     <select class="form-select" id="country">
-      <option selected>어떤거 드셨나요?</option>
-      <option value="1">한식</option>
-      <option value="2">중식</option>
-      <option value="3">양식</option>
-      <option value="4">일식</option>
-      <option value="5">기타</option>
+        <option selected>어떤거 드셨나요?</option>
+        <option value="KR">한식</option>
+        <option value="CN">중식</option>
+        <option value="JP">일식</option>
+        <option value="OT">양식 등 기타</option>
     </select>
     <br>
     <input id="title" size="35" placeholder="알려주세요">
     <br>
-    <textarea class="content" id="comment" rows="6" placeholder="내용을 적어주세요"></textarea>
+    <textarea class="comment" id="comment" rows="6" placeholder="내용을 적어주세요"></textarea>
     <br>
 
     <button class="btn btn-success" onclick="post_board()">post</button>
@@ -182,7 +198,7 @@
 <div class="post" id="profile-box">
     <p>프로필 수정하기</p>
     <div>
-        <a>id를 입력하세요</a><input id="input_id" placeholder="필수입력사항 입니다.">
+        <a>id를 입력하세요</a><input id="input_id" placeholder="필수입력사항입니다.">
     </div>
     <div>
         <a>수정하실 비밀번호를 입력하세요</a><input id="input_change_pw">
@@ -201,6 +217,51 @@
     <button onclick="close_profile_box()">cancel</button>
     <button onclick="delete_()">탈퇴하기</button>
     <button onclick="logout()">로그아웃</button>
+</div>
+
+<div>
+    <h1>식사 종류 유형</h1>
+    <div class="mycards">
+        <div class="row row-cols-2 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiHVC80LmuebqBI3h56SIBbhhm1JXN10AA9Q&usqp=CAU"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">한식: <span id="0">0</span> 끼</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://eateryjapan.com/wp-content/uploads/2019/12/8-0-1024x683.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">일식: <span id="1">0</span> 끼</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5V1Hp2NGD4_uXkPKi3vR_37JiULjyLzg5ew&usqp=CAU"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">중식: <span id="2">0</span> 끼</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/1d2b273451d45efc1233b86efe1e2bd1.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">기타: <span id="3">0</span> 끼</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div>

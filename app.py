@@ -78,7 +78,7 @@ def login():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=500)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
@@ -102,6 +102,13 @@ def main_post():
     db.projects.insert_one(doc)
     return jsonify({'msg': '등록 완료!'})
 
+@app.route('/api/country', methods=['GET'])
+def show_country():
+    kr_list = len(list(db.projects.find({'country':'KR'}, {'_id': False})))
+    jp_list = len(list(db.projects.find({'country': 'JP'}, {'_id': False})))
+    cn_list = len(list(db.projects.find({'country': 'CN'}, {'_id': False})))
+    ot_list = len(list(db.projects.find({'country': 'OT'}, {'_id': False})))
+    return jsonify(kr_list, jp_list, cn_list, ot_list)
 
 @app.route("/api/profile/change", methods=["POST"])
 def profile_change():
