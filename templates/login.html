@@ -53,7 +53,7 @@
             0 0 50px #d4dcb1,
             0 0 50px #d4dcb1;
             animation: animate 15s linear infinite;
-            animation-duration: calc(125s / var(--i));
+            animation-duration: calc(400s / var(--i));
         }
         .snow span:nth-child(even){
             background: #ffede8;
@@ -65,6 +65,14 @@
         @keyframes animate {
             0%{
                 transform: translateY(-10vh) scale(0);
+                transform-style: preserve-3d;
+            }
+            30%{
+                traform: translatex(-30vh) scale(0.3);
+                transform-style: preserve-3d;
+            }
+            60%{
+                traform: translatex(30vh) scale(0.6);
                 transform-style: preserve-3d;
             }
             100%{
@@ -169,6 +177,12 @@
                 window.location.href = '/sign'
          }
 
+  </script>
+</head>
+<body>
+
+</body>
+</html>
     </script>
 </head>
 <body>
