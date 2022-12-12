@@ -129,6 +129,11 @@
          function sign_up(){
                 window.location.href = '/sign'
          }
+         function enterKeyDown(){
+            if(window.event.keyCode == 13){
+            login();
+            };
+         }
 
     </script>
 </head>
@@ -142,7 +147,7 @@
         <div class="mypost" id="post-box">
             <div class="form-floating mb-3">
                 <input type=text class="input" id="userid" placeholder="ID">
-                <p><input type=password class="input" id="userpw" placeholder="PW"></p>
+                <p><input type=password class="input" id="userpw" placeholder="PW" onkeyup="enterKeyDown()"></p>
             </div>
 
             <div class="mybtns">
