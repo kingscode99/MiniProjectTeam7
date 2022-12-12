@@ -11,9 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+          rel="stylesheet">
+
 
     <title>Main</title>
     <style>
+         * {
+            font-family: 'Noto Serif KR', serif;
+        }
         .board {
 
         }
@@ -33,12 +39,15 @@
         .post {
             width: 95%;
             max-width: 500px;
+            height: 40vh;
             margin: 10px auto 10px auto;
-            padding: 20px;
+            padding: 40px;
             box-shadow: 0px 0px 3px 0px gray;
             display: none;
         }
         .form-control{margin-top: 1.8%}
+        .btn{margin-top: 6%; width: 23%}
+        .mola{margin-top: 3%}
     </style>
     <script>
         $(document).ready(function () {
@@ -197,23 +206,23 @@
 </div>
 
 <div class="post" id="profile-box">
-    <p>프로필 수정하기</p>
+    <p>프로필 수정</p>
     <div class="privacy">
         <input type="text" class="form-control" id="input_id" placeholder="아이디를 입력해주세요">
         <input type="password" class="form-control" id="input_change_pw" placeholder="비밀번호를 입력해주세요">
         <input type="text" class="form-control" id="input_change_nick" placeholder="닉네임을 입력해주세요">
     </div>
-    <div>
-        <a>변경하실 프로필사진을 선택해주세요</a>
+    <div class="mola">
+        <a>▼ 변경하실 프로필사진을 선택해주세요</a>
         <div class="custom-file">
             <input type="file" class="custom-file-input" id="inputGroupFile04">
             <label class="custom-file-label" for="inputGroupFile04"></label>
         </div>
     </div>
-    <button onclick="change_profile()">chage</button>
-    <button onclick="close_profile_box()">cancel</button>
-    <button onclick="delete_()">탈퇴하기</button>
-    <button onclick="logout()">로그아웃</button>
+    <button onclick="change_profile()" class="btn btn-outline-primary">change</button>
+    <button onclick="close_profile_box()" class="btn btn-outline-secondary">cancel</button>
+    <button onclick="delete_()" class="btn btn-outline-danger">secession</button>
+    <button onclick="logout()" class="btn btn-outline-dark">log-out</button>
 </div>
 
 <div>
