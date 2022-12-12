@@ -14,7 +14,7 @@
 
     </script>
 
-    <title>식사는 잡솼어? / 회원가입</title>
+    <title>#스파르탄그램 / 회원가입</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
           rel="stylesheet">
@@ -22,12 +22,23 @@
         * {
             font-family: 'Noto Serif KR', serif;
         }
+        .thema {
+
+            width: 100%;
+            max-height: 95%;
+            height: 1000px;
+            margin: auto;
+
+            background-image: linear-gradient(66deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQLxE7TesWgkcsH2wKRMz3WQO4sKNzt5_NuA&usqp=CAU');
+            background-position: center;
+            background-size: cover;
+        }
 
         .sign_title {
 
             width: 100%;
             height: 100px;
-            margin-top: 20px;
 
             display: flex;
             flex-direction: column;
@@ -37,7 +48,6 @@
 
         .profile_pic_out {
 
-            background-color: gray;
             width: auto;
             height: 150px;
 
@@ -76,6 +86,7 @@
         }
 
         .sign_box {
+
             margin-top: 10px;
 
             display: flex;
@@ -124,7 +135,6 @@
 
 
         }
-
         function retern_page() {
             window.location.href = '/login'
         }
@@ -132,7 +142,8 @@
 </head>
 
 <body>
-<div class="sign_title">
+<div class="thema">
+  <div class ="sign_title">
     <h1>회원가입</h1>
 </div>
 
@@ -148,19 +159,35 @@
         <input type="password" class="form-control" id="user_pw" placeholder="Password">
         <label for="floatingPassword">Password</label>
     </div>
-    <P>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="user_name" placeholder="name@example.com">
-        <label for="floatingInput">이름을 입력하세요</label>
+
+    <label class="file-label" for="chooseFile">사진선택</label>
+    <input onclick="" class="file" id="chooseFile" type="file" onchange="dropFile.handleFiles(this.files)"
+           accept="image/png, image/jpeg, image/gif">
+
+    <div class="sign_box">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="user_id" placeholder="name@example.com">
+            <label for="floatingInput">아이디</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="user_pw" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <P>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="user_name" placeholder="name@example.com">
+            <label for="floatingInput">이름을 입력하세요</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="user_nick" placeholder="name@example.com">
+            <label for="floatingInput">닉네임을 입력하세요</label>
+        </div>
+        <br>
+        <button onclick="save_user()" type="button" class="btn btn-secondary">회원 가입</button>
+        <br>
+        <button onclick="retern_page()" type="button" class="btn btn-secondary">취소</button>
     </div>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="user_nick" placeholder="name@example.com">
-        <label for="floatingInput">닉네임을 입력하세요</label>
-    </div>
-    <br>
-    <button onclick="save_user()" type="button" class="btn btn-secondary">회원 가입</button>
-    <br>
-    <button onclick="retern_page()" type="button" class="btn btn-secondary">취소</button>
+
 </div>
 
 

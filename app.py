@@ -7,9 +7,8 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority',tlsCAFile=ca)
-
-db = client.dbsparta
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nlofzws.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+db = client.test
 
 SECRET_KEY = 'SPARTA'
 
@@ -102,6 +101,7 @@ def main_post():
     id_receive = request.form['id_give']
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
+
     # 파일 저장을 위한 부분
     file = request.files["image_give"]
 
@@ -116,9 +116,20 @@ def main_post():
     save_to = f'static/{filename}.{extension}'
     file.save(save_to)
     doc = {'title': title_receive, 'comment': comment_receive, 'id': id_receive, 'image': f'{filename}.{extension}'}
+
+    country_receive = request.form['country_give']
+    doc = {'title': title_receive, 'comment': comment_receive,'country': country_receive}
+
     db.projects.insert_one(doc)
     return jsonify({'msg': '등록 완료!'})
 
+@app.route('/api/country', methods=['GET'])
+def show_country():
+    kr_list = len(list(db.projects.find({'country':'0'}, {'_id': False})))
+    jp_list = len(list(db.projects.find({'country': '1'}, {'_id': False})))
+    cn_list = len(list(db.projects.find({'country': '2'}, {'_id': False})))
+    ot_list = len(list(db.projects.find({'country': '3'}, {'_id': False})))
+    return jsonify(kr_list, jp_list, cn_list, ot_list)
 
 @app.route("/api/profile/change", methods=["POST"])
 def profile_change():
