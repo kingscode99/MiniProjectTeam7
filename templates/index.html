@@ -72,14 +72,18 @@
                     for (let i = 0; i < post.length; i++) {
                         let title = post[i]['title']
                         let comment = post[i]['comment']
+                        let post_image = post[i]['image']
                         let nick = user[i]['nick']
+                        let image = user[i]['image']
+                        console.log(title)
+                        console.log(post_image)
                         let temp_html = `
                         <div class="profileShow">
                             <div style="height:60px; width:200px;">
                                 <div class="card mb-3">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img src="https://i.ytimg.com/vi/T1mmhhPYLGk/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA8_GPB37rKMJWVxaYNxufPidyftg"
+                                            <img src="${image}"
                                                  class="img-fluid rounded-start" alt="...">
                                         </div>
                                         <div class="col-md-8">
@@ -91,11 +95,11 @@
                                 </div>
                             </div>
                             <div class="card mb-3">
-                              <img src="..." class="card-img-top" alt="...">
+                              <img src="/static/${post_image}" class="card-img-top" alt="...">
                               <div class="card-body">
                                 <h5 class="card-title">${title}</h5>
                                 <p class="card-text">${comment}</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <p class="card-text"><small class="text-muted"></small></p>
                               </div>
                             </div>
                         </div>
@@ -110,16 +114,31 @@
             let country = $('#country').val()
             let title = $('#title').val()
             let comment = $('#comment').val()
-            console.log(title, comment)
+            let id = '{{ id }}'
+            // 파일을 보내기 위한 코드
+            let file = $('#post_image')[0].files[0] // id file의 0번째 태그의 files 중 0 번째 파일
+            let form_data = new FormData()
+            form_data.append("title_give", title)
+            form_data.append("comment_give", comment)
+            form_data.append("id_give", id)
+            form_data.append("image_give", file)
+            form_data.append("country_give", country)
             $.ajax({
                 type: "POST",
                 url: "/api/post",
-                data: {title_give: title, comment_give: comment, country_give: country},
+
+                data: form_data,
+                // 파일을 보내는데 필요한 기본 세팅이 되어있지 않을 수 있기 떄문에 false로 설정
+                cache: false,
+                contentType: false,
+                processData: false,
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
                 }
             });
+
+
         }
 
         function show_country() {
@@ -160,7 +179,7 @@
             $.ajax({
                 type: "POST",
                 url: "/api/profile/change",
-                data: {id_give: id, pw_give: change_pw, nick_give: change_nick},
+                data: {id_give: id, pw_give:change_pw, nick_give:change_nick},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
@@ -200,6 +219,16 @@
     <textarea class="content" id="comment" rows="6" placeholder="내용을 적어주세요"></textarea>
     <br>
 
+
+    <div class="input-group mb-3">
+        <div class="custom-file">
+            <input type="file" id="post_image">
+        </div>
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Button</button>
+        </div>
+    </div>
     <button class="btn btn-success" onclick="post_board()">post</button>
     <button class="btn btn-secondary" onclick="close_post_box()">cancel</button>
 </div>
@@ -211,6 +240,7 @@
         <input type="password" class="form-control" id="input_change_pw" placeholder="비밀번호를 입력해주세요">
         <input type="text" class="form-control" id="input_change_nick" placeholder="닉네임을 입력해주세요">
     </div>
+
     <div class="mola">
         <a>▼ 변경하실 프로필사진을 선택해주세요</a>
         <div class="custom-file">
@@ -258,7 +288,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <div>
