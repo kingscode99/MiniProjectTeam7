@@ -6,7 +6,7 @@ import certifi
 # 각자 파이몽고 계정으로 테스트해주세요~
 from pymongo import MongoClient
 ca=certifi.where()
-client = MongoClient("mongodb+srv://lcoeda:test@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://lcoeda:비번@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.test
 
 SECRET_KEY = 'PROJECT_7'
@@ -19,7 +19,7 @@ import hashlib
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('login.html')
 
 @app.route('/login')
 def login():
@@ -43,7 +43,7 @@ def api_login():
         # exp에는 만료시간을 넣어줍니다. 만료시간이 지나면, 시크릿키로 토큰을 풀 때 만료되었다고 에러가 납니다.
         payload = {
             'id': id_receive,
-            # 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
+            # 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
