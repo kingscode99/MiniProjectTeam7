@@ -92,10 +92,6 @@
             close_card();
         });
 
-        {% if msg %}
-                alert("{{ msg }}")
-            {% endif %}
-
         function login() {
             $.ajax({
                 type: "POST",
