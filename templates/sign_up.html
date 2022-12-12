@@ -96,8 +96,6 @@
             let pw = $('#user_pw').val();
             let name = $('#user_name').val();
             let nick = $('#user_nick').val();
-            // 파일을 보내기 위한 코드
-            let file = $('#file')[0].files[0] // id file의 0번째 태그의 files 중 0 번째 파일
             let a = ''
             switch (a) {
                 case id:
@@ -113,41 +111,17 @@
                     alert('닉네임을 입력하세요')
                     break
                 default:
-                    if (file != undefined) {
-                        let form_data = new FormData()
-                        form_data.append("image_give", file)
-                        form_data.append("id_give", id)
-                        form_data.append("pw_give", pw)
-                        form_data.append("name_give", name)
-                        form_data.append("nick_give", nick)
-                        alert('이미지 있음')
-                        $.ajax({
-                            type: 'POST',
-                            url: '/api/sign',
-                            data: form_data,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function (response) {
-                                alert(response['msg'])
-                                window.location.href = '/login'
-                            }
-                        })
-                    } else {
-                        alert('이미지없음')
-                        $.ajax({
-                            type: 'POST',
-                            url: '/api/sign',
-                            data: {id_give: id, pw_give: pw, name_give: name, nick_give: nick},
-                            success: function (response) {
-                                alert(response['msg'])
-                                window.location.href = '/login'
-                            }
-                        })
-                    }
-
-
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/sign',
+                        data: {id_give: id, pw_give: pw, name_give: name, nick_give: nick},
+                        success: function (response) {
+                            alert(response['msg'])
+                            window.location.href = '/login'
+                        }
+                    })
             }
+
 
         }
 
@@ -161,13 +135,6 @@
 <div class="sign_title">
     <h1>회원가입</h1>
 </div>
-
-<div class="profile_pic_out">
-    <div class="profile_pic_in">
-        프로필 사진 영역
-    </div>
-</div>
-<input type="file" id="file" accept="image/">
 
 <input onclick="" class="file" id="chooseFile" type="file" onchange="dropFile.handleFiles(this.files)"
        accept="image/png, image/jpeg, image/gif">
