@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient('mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority',tlsCAFile=ca)
+client = MongoClient('mongodb+srv://test:sparta@cluster0.pkogdim.mongodb.net/?retryWrites=true&w=majority',tlsCAFile=ca)
 
 db = client.dbsparta
 
@@ -78,7 +78,7 @@ def login():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=500)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
@@ -97,10 +97,18 @@ def board_get():
 def main_post():
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
-    doc = {'title': title_receive, 'comment': comment_receive}
+    country_receive = request.form['country_give']
+    doc = {'title': title_receive, 'comment': comment_receive,'country': country_receive}
     db.projects.insert_one(doc)
     return jsonify({'msg': '등록 완료!'})
 
+@app.route('/api/country', methods=['GET'])
+def show_country():
+    kr_list = len(list(db.projects.find({'country':'KR'}, {'_id': False})))
+    jp_list = len(list(db.projects.find({'country': 'JP'}, {'_id': False})))
+    cn_list = len(list(db.projects.find({'country': 'CN'}, {'_id': False})))
+    ot_list = len(list(db.projects.find({'country': 'OT'}, {'_id': False})))
+    return jsonify(kr_list, jp_list, cn_list, ot_list)
 
 @app.route("/api/profile/change", methods=["POST"])
 def profile_change():
