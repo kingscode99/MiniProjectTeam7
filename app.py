@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient("mongodb+srv://lcoeda:비번@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://lcoeda:#####@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.test
 
 SECRET_KEY = 'SPARTA'
@@ -77,7 +77,7 @@ def login():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=500)
+            # 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=500)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
