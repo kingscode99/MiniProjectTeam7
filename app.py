@@ -16,8 +16,10 @@ SECRET_KEY = 'SPARTA'
 import jwt
 
 import hashlib
-
 import datetime
+from _datetime import datetime
+
+
 
 
 @app.route('/')
@@ -53,6 +55,18 @@ def sign_up():
     pw_receive = request.form['pw_give']
     name_receive = request.form['name_give']
     nick_receive = request.form['nick_give']
+    # 파일 저장을 위한 부분
+    file = request.files["image_give"]
+    # 파일 확장자
+    extension = file.filename.split('.')[-1]
+
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    filename = f'file-{mytime}'
+
+    save_to = f'static/{filename}.{extension}'
+    file.save(save_to)
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     if db.min7_project.find_one({'id': id_receive}) is None:
@@ -60,7 +74,8 @@ def sign_up():
             'id': id_receive,
             'pw': pw_hash,
             'name': name_receive,
-            'nick': nick_receive
+            'nick': nick_receive,
+            'image': f'{filename}.{extension}'
         }
         db.min7_project.insert_one(doc)
         return jsonify({'msg': '가입 완료!'})
@@ -74,7 +89,6 @@ def login():
     pw_receive = request.form['pw_give']
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     result = db.min7_project.find_one({'id': id_receive, 'pw': pw_hash})
-    print(result)
     if result is not None:
         payload = {
             'id': id_receive,
