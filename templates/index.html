@@ -54,7 +54,6 @@
                 success: function (response) {
                     let post = response['posts']
                     let user = response['users']
-                    console.log(post)
                     for (let i = 0; i < post.length; i++) {
                         let title = post[i]['title']
                         let comment = post[i]['comment']
@@ -95,11 +94,11 @@
         function post_board() {
             let title = $('#title').val()
             let comment = $('#comment').val()
-            console.log(title, comment)
+            let id = '{{ id }}'
             $.ajax({
                 type: "POST",
                 url: "/api/post",
-                data: {title_give: title, comment_give: comment},
+                data: {title_give: title, comment_give: comment, id_give: id},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
