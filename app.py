@@ -104,10 +104,10 @@ def main_post():
 
 @app.route('/api/country', methods=['GET'])
 def show_country():
-    kr_list = len(list(db.projects.find({'country':'KR'}, {'_id': False})))
-    jp_list = len(list(db.projects.find({'country': 'JP'}, {'_id': False})))
-    cn_list = len(list(db.projects.find({'country': 'CN'}, {'_id': False})))
-    ot_list = len(list(db.projects.find({'country': 'OT'}, {'_id': False})))
+    kr_list = len(list(db.projects.find({'country':'0'}, {'_id': False})))
+    jp_list = len(list(db.projects.find({'country': '1'}, {'_id': False})))
+    cn_list = len(list(db.projects.find({'country': '2'}, {'_id': False})))
+    ot_list = len(list(db.projects.find({'country': '3'}, {'_id': False})))
     return jsonify(kr_list, jp_list, cn_list, ot_list)
 
 @app.route("/api/profile/change", methods=["POST"])
