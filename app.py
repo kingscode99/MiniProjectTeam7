@@ -78,7 +78,7 @@ def login():
     if result is not None:
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=5)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
@@ -88,16 +88,20 @@ def login():
 
 @app.route('/api/board', methods=['GET'])
 def board_get():
-    user_list = list(db.min7_project.find({}, {'_id': False}))
     post_list = list(db.projects.find({}, {'_id': False}))
-    return jsonify({'users': user_list, 'posts': post_list})
+    nicknames = []
+    for user in post_list:
+        nickname = db.min7_project.find_one({'id': user['id']}, {'_id': False})
+        nicknames.append(nickname)
+    return jsonify({'posts': post_list, 'users': nicknames})
 
 
 @app.route("/api/post", methods=["POST"])
 def main_post():
+    id_receive = request.form['id_give']
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
-    doc = {'title': title_receive, 'comment': comment_receive}
+    doc = {'title': title_receive, 'comment': comment_receive, 'id': id_receive}
     db.projects.insert_one(doc)
     return jsonify({'msg': '등록 완료!'})
 
