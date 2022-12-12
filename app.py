@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient("mongodb+srv://lcoeda:#####@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nlofzws.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.test
 
 SECRET_KEY = 'SPARTA'
@@ -16,7 +16,9 @@ import jwt
 
 import hashlib
 
-import datetime
+from _datetime import datetime
+
+
 
 
 @app.route('/')
@@ -41,8 +43,6 @@ def show_main():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.min7_project.find_one({"id": payload['id']})
         return render_template('index.html', nickname=user_info["nick"], id=payload['id'])
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
@@ -54,17 +54,18 @@ def sign_up():
     nick_receive = request.form['nick_give']
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-
-    doc = {
-        'id': id_receive,
-        'pw': pw_hash,
-        'name': name_receive,
-        'nick': nick_receive
-    }
-
-    db.min7_project.insert_one(doc)
-
-    return jsonify({'msg': '가입 완료!'})
+    if db.min7_project.find_one({'id': id_receive}) is None:
+        doc = {
+            'id': id_receive,
+            'pw': pw_hash,
+            'name': name_receive,
+            'nick': nick_receive,
+            'image': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=a340'
+        }
+        db.min7_project.insert_one(doc)
+        return jsonify({'msg': '가입 완료!'})
+    else:
+        return jsonify({'msg': '중복된 아이디 입니다'})
 
 
 @app.route('/api/login', methods=["POST"])
@@ -73,11 +74,9 @@ def login():
     pw_receive = request.form['pw_give']
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     result = db.min7_project.find_one({'id': id_receive, 'pw': pw_hash})
-    print(result)
     if result is not None:
         payload = {
             'id': id_receive,
-            # 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=500)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
@@ -87,17 +86,40 @@ def login():
 
 @app.route('/api/board', methods=['GET'])
 def board_get():
-    user_list = list(db.min7_project.find({}, {'_id': False}))
     post_list = list(db.projects.find({}, {'_id': False}))
-    return jsonify({'users': user_list, 'posts': post_list})
+    nicknames = []
+    for user in post_list:
+        nickname = db.min7_project.find_one({'id': user['id']}, {'_id': False})
+        nicknames.append(nickname)
+    return jsonify({'posts': post_list, 'users': nicknames})
+
+
 
 
 @app.route("/api/post", methods=["POST"])
 def main_post():
+    id_receive = request.form['id_give']
     title_receive = request.form['title_give']
     comment_receive = request.form['comment_give']
+
+    # 파일 저장을 위한 부분
+    file = request.files["image_give"]
+
+    # 파일 확장자
+    extension = file.filename.split('.')[-1]
+
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    filename = f'file-{mytime}'
+
+    save_to = f'static/{filename}.{extension}'
+    file.save(save_to)
+    doc = {'title': title_receive, 'comment': comment_receive, 'id': id_receive, 'image': f'{filename}.{extension}'}
+
     country_receive = request.form['country_give']
     doc = {'title': title_receive, 'comment': comment_receive,'country': country_receive}
+
     db.projects.insert_one(doc)
     return jsonify({'msg': '등록 완료!'})
 
@@ -114,11 +136,7 @@ def profile_change():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     nick_receive = request.form['nick_give']
-    # 비밀번호를 sha256문자열로 바꿔주기
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-
-    # 이미지 받아오기 코드 작성
-
     if id_receive == '':
         return jsonify({'msg': 'id를 입력하세요'})
     elif db.min7_project.find_one({'id': id_receive}) is None:
@@ -126,8 +144,6 @@ def profile_change():
 
     if pw_receive == '' and nick_receive == '':
         return jsonify({'msg': '값을 입력하세요'})
-
-    # 여기에 이미지 저장코드 작성하기
 
     if pw_hash == db.min7_project.find_one({'id': id_receive})['pw']:
         return jsonify({'msg': '같은 비밀번호입니다.'})
