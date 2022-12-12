@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,64 +15,93 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-    <title>#스파르탄그램</title>
+    <title>#스파르타그램</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
           rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         * {
             font-family: 'Noto Serif KR', serif;
         }
-
-        .mypic {
-            width: 99.94%;
-            max-height: 95%;
-            height: 1000px;
-            margin: auto;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            background-image: linear-gradient(66deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        {margin: 0;padding: 0;box-sizing: border-box;}
+        body{
+            min-height: 100vh;
+            background-image: linear-gradient(66deg, rgba(28,10 ,12, 0), rgba(12, 9, 0, 0.3)),
             url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQLxE7TesWgkcsH2wKRMz3WQO4sKNzt5_NuA&usqp=CAU');
-            background-position: center;
             background-size: cover;
+        }
+          .container{
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .snow{
+            position: relative;
+            display: flex;
+        }
+        .snow span{
+            position: relative;
+            width: 15px;
+            height: 15px;
+            background: #d4dcb1;
+            margin: 0 4px;
+            border-radius: 50%;
+
+            box-shadow: 0 0 0 10px #d4dcb144,
+            0 0 50px #d4dcb1,
+            0 0 50px #d4dcb1;
+            animation: animate 15s linear infinite;
+            animation-duration: calc(125s / var(--i));
+        }
+        .snow span:nth-child(even){
+            background: #ffede8;
+            box-shadow: 0 0 0 10px #ffede844,
+            0 0 50px #ffede8,
+            0 0 30px #ffede8,
+            0 0 50px #ffede8;
+        }
+        @keyframes animate {
+            0%{
+                transform: translateY(-10vh) scale(0);
+                transform-style: preserve-3d;
+            }
+            100%{
+                transform: translateY(110vh) scale(1);
+                transform-style: preserve-3d;
+            }
         }
 
         .mypost {
             background-color: #e4e4e4;
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 20px auto;
-            margin-bottom: 200px;
+            height: 25%;
+            width:40%;
             background-color: rgba(200, 200, 200, 0.5);
-
             border-radius: 5px;
             box-shadow: 0px 0px 3px 0px black;
             padding: 20px;
+            margin-top: 60px;
         }
 
         .mybtns {
-            margin-top: 10px;
             display: flex;
             flex-direction: row;
         }
 
         .btn {
             outline-style: hidden;
-            color: black;
+            color: #313131;
             font-size: 30px;
-            margin-bottom: 400px;
-            margin: 40px 40px 400px;
+            margin-top: 60px;
         }
 
         .btn-light {
-            margin-left: 8px;
+            margin-left: 6px;
             box-shadow: 3px 0px 5px 0px gray;
             border: 0.8px solid gray;
             border-radius: 3px;
+            width: 20%;
         }
 
         .btns > button:hover{
@@ -81,8 +110,15 @@
         .input{
             margin-top: 8px;
             margin-right: 20px;
-            width: 240px;
-
+            width: 70%;
+        }
+        .title{
+            font-style: italic;
+            color: #313131;
+            margin-top: 32px;
+        }
+        .image{
+            margin: 17% 62%
         }
 
     </style>
@@ -91,6 +127,12 @@
         $(document).ready(function () {
             close_card();
         });
+
+        function enterKeyDown(){
+            if(window.event.keyCode == 13){
+            login();
+            };
+         }
 
         function login() {
             $.ajax({
@@ -112,6 +154,7 @@
                 }
             })
         }
+
         function open_card() {
             $('#post-box').show()
             $('#btn-box').hide()
@@ -129,27 +172,91 @@
     </script>
 </head>
 <body>
-<div class="mypic">
-    <div class="btns" id="btn-box">
-        <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
-        <button onclick="sign_up()" type="button" class="btn">회원 가입</button>
+<div class="container">
+    <div class="snow">
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:22;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:20;"></span>
+        <span style="--i:11;"></span>
     </div>
-    <div class="test">
+        <div class="title">
+            <h2>#Spartagram</h2>
+            <h3>코딩으로부터의 일탈</h3>
+            <h4>여러분의 일상을 공유해주세요.</h4>
+        </div>
+
+    <div class="btns" id="btn-box">
+            <button onclick="open_card()" type="button" id="sara" class="btn">로그인 하기</button>
+            <button onclick="sign_up()" type="button" class="btn">회원 가입</button>
+        </div>
         <div class="mypost" id="post-box">
             <div class="form-floating mb-3">
-                <input type=text class="input" id="userid" placeholder="ID">
-                <p><input type=password class="input" id="userpw" placeholder="PW"></p>
+                <input type=text class="input" id="userid" placeholder="ID" onkeyup="enterKeyDown()">
+                <p><input type=password class="input" id="userpw" placeholder="PW" onkeyup="enterKeyDown()"></p>
             </div>
-
             <div class="mybtns">
-
                 <button onclick="login()" type="button" class="btn-light">로그인</button>
                 <button onclick="close_card()" type="button" class="btn-light">취소</button>
-
             </div>
         </div>
-
+        <div class="image">
+            <img src="static/제목_없음-2022-12-12-1040-removebg-preview.png">
         </div>
+
     </div>
 </body>
 

@@ -6,7 +6,7 @@ import certifi
 # 각자 파이몽고 계정으로 테스트해주세요~
 from pymongo import MongoClient
 ca=certifi.where()
-client = MongoClient("mongodb+srv://lcoeda:test@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+client = MongoClient("mongodb+srv://lcoeda:@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
 db = client.test
 
 SECRET_KEY = 'PROJECT_7'
@@ -19,7 +19,7 @@ import hashlib
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('login.html')
 
 @app.route('/login')
 def login():
@@ -81,6 +81,20 @@ def def_sign():
 @app.route('/main',methods=["GET"])
 def show_main(): # 로그인 성공시 main으로 가는지 확인하기 위함
     return render_template('index.html')
+
+@app.route('/post', methods=["GET"])
+def show_post():
+    return render_template('post.html')
+@app.route('/post', methods=["POST"])
+def save_post():
+    title_receive = request.form['title_give']
+    id_receive=request.form['id_give']
+    nick_receive = request.form['nick_give']
+    comment_receive = request.form['comment_give']
+    img_receive = request.form['img_give']
+
+    doc = {'title': title_receive,'id':id_receive,'nick':nick_receive ,'comment': comment_receive, 'img':img_receive}
+    db.min7_project_post.insert_one(doc)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
