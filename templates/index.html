@@ -38,6 +38,7 @@
             box-shadow: 0px 0px 3px 0px gray;
             display: none;
         }
+        .form-control{margin-top: 1.8%}
     </style>
     <script>
         $(document).ready(function () {
@@ -63,7 +64,7 @@
                     for (let i = 0; i < post.length; i++) {
                         let title = post[i]['title']
                         let comment = post[i]['comment']
-                        {#let nick = user[i]['nick']#}
+                        // let nick = user[i]['nick']
                         let temp_html = `
                         <div class="profileShow">
                             <div style="height:60px; width:200px;">
@@ -197,14 +198,10 @@
 
 <div class="post" id="profile-box">
     <p>프로필 수정하기</p>
-    <div>
-        <a>id를 입력하세요</a><input id="input_id" placeholder="필수입력사항입니다.">
-    </div>
-    <div>
-        <a>수정하실 비밀번호를 입력하세요</a><input id="input_change_pw">
-    </div>
-    <div>
-        <a>변경하실 닉네임을 입력해주세요</a><input id="input_change_nick">
+    <div class="privacy">
+        <input type="text" class="form-control" id="input_id" placeholder="아이디를 입력해주세요">
+        <input type="password" class="form-control" id="input_change_pw" placeholder="비밀번호를 입력해주세요">
+        <input type="text" class="form-control" id="input_change_nick" placeholder="닉네임을 입력해주세요">
     </div>
     <div>
         <a>변경하실 프로필사진을 선택해주세요</a>
