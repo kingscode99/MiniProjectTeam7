@@ -166,6 +166,7 @@
 
         function open_post_box() {
             $('#post-box').show()
+            $('#profile-box').hide()
         }
 
         function close_post_box() {
@@ -174,6 +175,7 @@
 
         function open_profile_box() {
             $('#profile-box').show()
+            $('#post-box').hide()
         }
 
         function close_profile_box() {
@@ -203,7 +205,7 @@
                 data: {id_give: id},
                 success: function (response) {
                     alert(response["msg"])
-                    window.location.reload()
+                     window.location.href = '/login'
                 }
             });
         }
@@ -250,10 +252,10 @@
         <input type="text" class="form-control" id="input_change_nick" placeholder="닉네임을 입력해주세요">
     </div>
 
-    <button onclick="change_profile()" class="btn btn-primary">change</button>
-    <button onclick="logout()" class="btn btn-dark">log-out</button>
-    <button onclick="delete_()" class="btn btn-danger">secession</button>
-    <button onclick="close_profile_box()" class="btn btn-secondary">cancel</button>
+    <button onclick="change_profile()" class="btn btn-primary">수정</button>
+    <button onclick="logout()" class="btn btn-dark">로그아웃</button>
+    <button onclick="delete_()" class="btn btn-danger">탈퇴</button>
+    <button onclick="close_profile_box()" class="btn btn-secondary">취소</button>
 </div>
 
     <div class="dining">
