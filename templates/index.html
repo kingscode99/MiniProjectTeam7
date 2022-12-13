@@ -15,23 +15,15 @@
           rel="stylesheet">
 
 
-    <title>Main</title>
+    <title>식사는잡솼? / 메인</title>
     <style>
         * {
             font-family: 'Noto Serif KR', serif;
         }
-
-        body {
-            background-image: linear-gradient(224deg, rgba(189, 193, 228), rgba(212, 184, 192, 1.73));
-            background-size: contain;
-            animation: animate 15s linear infinite;
-            animation-duration: calc(500s)
-        }
-
-        @keyframes animate {
-
-        }
-
+         body{
+             background-image: linear-gradient(224deg, rgba(189,193 ,228), rgba(212,184 ,192, 1.73));
+             background-size: contain;
+         }
         .profileShow {
             width: 60%;
             margin: 20px auto 0px auto;
@@ -51,45 +43,19 @@
 
         .post {
             width: 95%;
-            max-width: 500px;
+            max-width: 540px;
             height: 40vh;
             margin: 10px auto 10px auto;
             padding: 40px;
             display: none;
         }
-
-        .form-control {
-            margin-top: 2.5%
-        }
-
-        .btn {
-            margin-top: 13px;
-            width: 10vh;
-        }
-
-        .down_btn {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .dining {
-            margin: 200px;
-            width: 60%;
-        }
-
-        .card-body {
-            background-color: #e4e4e4
-        }
-
-        .top {
-            margin-top: 12px;
-            margin-left: 8px
-        }
-
-        .card-img-top {
-            height: 300px;
-            width: 500px;
-        }
+        .form-control{margin-top: 2.5%}
+        .btn{margin: 13px 10px 0px 0px; width: 10vh;margin-left:0.6%}
+        .down_btn{margin-right: 10px; display: flex; flex-direction: row;}
+        .dining{margin-top:7vh;width: 60%;margin-left:0.8%}
+        .card-body{background-color: #e4e4e4}
+        .top{margin-top: 12px;margin-left: 0.6%}
+        .board{margin-top: 1.5%;margin-left:0.8%}
     </style>
     <script>
         $(document).ready(function () {
@@ -243,7 +209,7 @@
                 data: {id_give: id},
                 success: function (response) {
                     alert(response["msg"])
-                    window.location.reload()
+                    window.location.href = '/login'
                 }
             });
         }
@@ -345,13 +311,14 @@
 
 <button onclick="open_profile_box()" class="btn btn-dark">profile</button>
 <button onclick="open_post_box()" class="btn btn-secondary">post</button>
+
 <div class="post" id="post-box">
     <select class="form-select" id="country">
-        <option selected>어떤거 드셨나요?</option>
-        <option value="0">한식</option>
-        <option value="1">일식</option>
-        <option value="2">중식</option>
-        <option value="3">기타</option>
+      <option selected disabled>어떤거 드셨나요?</option>
+      <option selected value="0">한식</option>
+      <option value="1">일식</option>
+      <option value="2">중식</option>
+      <option value="3">기타</option>
     </select>
     <br>
     <input id="title" size="35" placeholder="알려주세요">
