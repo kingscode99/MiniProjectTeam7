@@ -59,7 +59,7 @@ def sign_up():
             'pw': pw_hash,
             'name': name_receive,
             'nick': nick_receive,
-            'image': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=a340'
+            'image': 'basic image.jpg'
         }
         db.min7_project.insert_one(doc)
         return jsonify({'msg': '가입 완료!'})
@@ -80,6 +80,43 @@ def login():
         return jsonify({'result': 'success', 'token': token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+
+@app.route('/api/image', methods=['GET'])
+def image_get():
+    id_receive = request.args.get('id_give')
+    image = db.min7_project.find_one({'id': id_receive})['image']
+    return jsonify({'image': image})
+
+
+@app.route('/api/change/image', methods=['GET'])
+def receive_id():
+    id = request.args.get('id_give')
+    print(id)
+
+
+@app.route('/api/change/image', methods=['POST'])
+def change_profile_image():
+    #토큰을 받아와서 jwt디코딩
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    userId = payload['id']
+    # 파일 저장을 위한 부분
+    file = request.files["file_give"]
+
+    # 파일 확장자
+    extension = file.filename.split('.')[-1]
+
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    filename = f'file-{mytime}'
+
+    save_to = f'static/{filename}.{extension}'
+    file.save(save_to)
+    print(f'{filename}.{extension}')
+    db.min7_project.update_one({'id': userId}, {'$set': {'image': f'{filename}.{extension}'}})
+    return jsonify({'msg': '변경 완료!'})
 
 
 @app.route('/api/board', methods=['GET'])
