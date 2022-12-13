@@ -59,7 +59,7 @@ def sign_up():
             'pw': pw_hash,
             'name': name_receive,
             'nick': nick_receive,
-            'image': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=a340'
+            'image': 'basic image.jpg'
         }
         db.min7_project.insert_one(doc)
         return jsonify({'msg': '가입 완료!'})
