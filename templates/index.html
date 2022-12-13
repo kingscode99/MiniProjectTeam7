@@ -17,24 +17,33 @@
 
     <title>Main</title>
     <style>
-         * {
+        * {
             font-family: 'Noto Serif KR', serif;
         }
-         body{
-             background-image: linear-gradient(224deg, rgba(189,193 ,228), rgba(212,184 ,192, 1.73));
-             background-size: contain;
-             animation: animate 15s linear infinite;
-             animation-duration: calc(500s)
-         }
-         @keyframes animate {
 
-         }
+        body {
+            background-image: linear-gradient(224deg, rgba(189, 193, 228), rgba(212, 184, 192, 1.73));
+            background-size: contain;
+            animation: animate 15s linear infinite;
+            animation-duration: calc(500s)
+        }
+
+        @keyframes animate {
+
+        }
+
         .profileShow {
-            width: 70%;
+            width: 60%;
             margin: 20px auto 0px auto;
-            padding: 20px 150px 20px 150px;
+
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0px 0px 3px 0px gray;
         }
+
         .content {
             width: 100%;
             margin: 20px auto 20px auto;
@@ -48,18 +57,45 @@
             padding: 40px;
             display: none;
         }
-        .form-control{margin-top: 2.5%}
-        .btn{margin-top: 13px; width: 10vh;}
-        .down_btn{display: flex;flex-direction: row;}
-        .dining{margin-top:7vh;width: 60%;}
-        .card-body{background-color: #e4e4e4}
-        .top{margin-top: 12px;margin-left: 8px}
 
+        .form-control {
+            margin-top: 2.5%
+        }
+
+        .btn {
+            margin-top: 13px;
+            width: 10vh;
+        }
+
+        .down_btn {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dining {
+            margin: 200px;
+            width: 60%;
+        }
+
+        .card-body {
+            background-color: #e4e4e4
+        }
+
+        .top {
+            margin-top: 12px;
+            margin-left: 8px
+        }
+
+        .card-img-top {
+            height: 300px;
+            width: 500px;
+        }
     </style>
     <script>
         $(document).ready(function () {
             show_post();
             show_country();
+            show_image();
         });
 
         function logout() {
@@ -87,23 +123,25 @@
                         console.log(post_image)
                         let temp_html = `
                         <div class="profileShow">
-                            <div style="height:60px; width:200px;">
-                                <div class="card mb-3">
-                                    <div class="row g-0">
-                                        <div class="col-md-4">
-                                            <img src="${image}"
-                                                 class="img-fluid rounded-start" alt="...">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div style="height:28px;">
-                                                <p>${nick}</p>
+                            <div style="margin:20px auto 20px 20px;">
+                                <div style="height:60px;width:200px;">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-md-4" style="height:50px">
+                                                <img src="/static/${image}"
+                                                     class="img-fluid rounded-start" alt="..." style="height:50px">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div style="height:28px;">
+                                                    <p>${nick}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card mb-3">
-                              <img src="/static/${post_image}" class="card-img-top" alt="...">
+                              <img src="/static/${post_image}" class="card-img-top">
                               <div class="card-body">
                                 <h5 class="card-title">${title}</h5>
                                 <p class="card-text">${comment}</p>
@@ -189,7 +227,7 @@
             $.ajax({
                 type: "POST",
                 url: "/api/profile/change",
-                data: {id_give: id, pw_give:change_pw, nick_give:change_nick},
+                data: {id_give: id, pw_give: change_pw, nick_give: change_nick},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
@@ -205,43 +243,131 @@
                 data: {id_give: id},
                 success: function (response) {
                     alert(response["msg"])
-                     window.location.href = '/login'
+                    window.location.reload()
+                }
+            });
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').src = "";
+            }
+        }
+
+        function show_image() {
+            $.ajax({
+                type: "GET",
+                url: "/api/image?id_give={{ id }}",
+                data: {},
+                success: function (response) {
+                    let image = response['image']
+                    let temp_html = `
+                    <div style="margin:20px auto 20px 20px;">
+                                <div style="height:50px;width:200px;">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-md-4" style="height:50px">
+                                                <img src="/static/${image}"
+                                                     class="img-fluid rounded-start" alt="..." style="height:50px">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div style="height:28px;">
+                                                    <p>나의 닉네임:{{ nickname }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                    $('#show_image').append(temp_html)
+                }
+            })
+        }
+        function change_image(){
+            $('#change_img').show()
+        }
+        function cancel_change_image(){
+            $('#change_img').hide()
+        }
+        function readimage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview_profile').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview_profile').src = "";
+            }
+        }
+        function change_profile_image(){
+            // 파일을 보내기 위한 코드
+            let file = $('#profile_image')[0].files[0] // id file의 0번째 태그의 files 중 0 번째 파일
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            $.ajax({
+                type: "POST",
+                url: "/api/change/image",
+                data: form_data,
+                // 파일을 보내는데 필요한 기본 세팅이 되어있지 않을 수 있기 떄문에 false로 설정
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
                 }
             });
         }
     </script>
 </head>
 <body>
-<h2 class="top">나의 닉네임은: {{ nickname }}</h2>
+<div id="show_image" onclick="change_image()"></div>
+
+<div id="change_img" style= "display:none">
+    <p>
+        <img style=height:100px;width:100px; id="preview_profile"/>
+    </p>
+    <input type="file" id="profile_image" onchange="readimage(this);">
+    <p>
+        <button onclick="change_profile_image()">바꾸기</button>
+        <button onclick="cancel_change_image()">취소</button>
+    </p>
+
+</div>
+
 <button onclick="open_profile_box()" class="btn btn-dark">profile</button>
 <button onclick="open_post_box()" class="btn btn-secondary">post</button>
 <div class="post" id="post-box">
     <select class="form-select" id="country">
-      <option selected>어떤거 드셨나요?</option>
-      <option value="0">한식</option>
-      <option value="1">일식</option>
-      <option value="2">중식</option>
-      <option value="3">기타</option>
+        <option selected>어떤거 드셨나요?</option>
+        <option value="0">한식</option>
+        <option value="1">일식</option>
+        <option value="2">중식</option>
+        <option value="3">기타</option>
     </select>
     <br>
     <input id="title" size="35" placeholder="알려주세요">
     <br>
     <textarea class="content" id="comment" rows="6" placeholder="내용을 적어주세요"></textarea>
     <br>
-
-    <div class="input-group mb-3">
-        <div class="custom-file">
-            <input type="file" id="post_image">
-        </div>
-
-<!--        <div class="input-group-append"> 파일 등록 할거면 쓸 것-->
-<!--         </div>-->
-            <div class="down_btn">
-                <button class="btn btn-success" onclick="post_board()">post</button>
-                <button class="btn btn-secondary" onclick="close_post_box()">cancel</button>
-            </div>
+    <div class="custom-file">
+        <img style=height:100px;width:100px; id="preview"/>
+        <input type="file" id="post_image" onchange="readURL(this);">
     </div>
-
+    <!--        <div class="input-group-append"> 파일 등록 할거면 쓸 것-->
+    <!--         </div>-->
+    <div class="down_btn">
+        <button class="btn btn-success" onclick="post_board()">post</button>
+        <button class="btn btn-secondary" onclick="close_post_box()">cancel</button>
+    </div>
 </div>
 
 <div class="post" id="profile-box">
@@ -252,47 +378,47 @@
         <input type="text" class="form-control" id="input_change_nick" placeholder="닉네임을 입력해주세요">
     </div>
 
-    <button onclick="change_profile()" class="btn btn-primary">수정</button>
-    <button onclick="logout()" class="btn btn-dark">로그아웃</button>
-    <button onclick="delete_()" class="btn btn-danger">탈퇴</button>
-    <button onclick="close_profile_box()" class="btn btn-secondary">취소</button>
+    <button onclick="change_profile()" class="btn btn-primary">change</button>
+    <button onclick="logout()" class="btn btn-dark">log-out</button>
+    <button onclick="delete_()" class="btn btn-danger">secession</button>
+    <button onclick="close_profile_box()" class="btn btn-secondary">cancel</button>
 </div>
 
-    <div class="dining">
-        <h1>식사 종류 유형</h1>
-        <div class="card-group">
-            <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiHVC80LmuebqBI3h56SIBbhhm1JXN10AA9Q&usqp=CAU"
-                     class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h3 class="card-title">한식: <span id="0">0</span> 끼</h3>
-                </div>
+<div class="dining">
+    <h1>식사 종류 유형</h1>
+    <div class="card-group">
+        <div class="card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiHVC80LmuebqBI3h56SIBbhhm1JXN10AA9Q&usqp=CAU"
+                 class="card-img-top" alt="...">
+            <div class="card-body">
+                <h3 class="card-title">한식: <span id="0">0</span> 끼</h3>
             </div>
-            <div class="card">
-                        <img src="https://eateryjapan.com/wp-content/uploads/2019/12/8-0-1024x683.jpg"
-                             class="card-img-top" alt="...">
+        </div>
+        <div class="card">
+            <img src="https://eateryjapan.com/wp-content/uploads/2019/12/8-0-1024x683.jpg"
+                 class="card-img-top" alt="...">
 
-                <div class="card-body">
-                    <h3 class="card-title">일식: <span id="1">0</span> 끼</h3>
-                </div>
+            <div class="card-body">
+                <h3 class="card-title">일식: <span id="1">0</span> 끼</h3>
             </div>
-            <div class="card">
-                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5V1Hp2NGD4_uXkPKi3vR_37JiULjyLzg5ew&usqp=CAU"
-                             class="card-img-top" alt="...">
+        </div>
+        <div class="card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5V1Hp2NGD4_uXkPKi3vR_37JiULjyLzg5ew&usqp=CAU"
+                 class="card-img-top" alt="...">
 
-                <div class="card-body">
-                                <h3 class="card-title">중식: <span id="2">0</span> 끼</h3>
-                </div>
+            <div class="card-body">
+                <h3 class="card-title">중식: <span id="2">0</span> 끼</h3>
             </div>
-            <div class="card">
-                             <img src="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/1d2b273451d45efc1233b86efe1e2bd1.jpg"
-                             class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h3 class="card-title">기타: <span id="3">0</span> 끼</h3>
-                </div>
+        </div>
+        <div class="card">
+            <img src="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/1d2b273451d45efc1233b86efe1e2bd1.jpg"
+                 class="card-img-top" alt="...">
+            <div class="card-body">
+                <h3 class="card-title">기타: <span id="3">0</span> 끼</h3>
             </div>
         </div>
     </div>
+</div>
 
 <div>
     <div class="board" id="post_board">
