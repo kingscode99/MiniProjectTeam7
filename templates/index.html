@@ -15,7 +15,7 @@
           rel="stylesheet">
 
 
-    <title>Main</title>
+    <title>#스파르타그램 / 메인</title>
     <style>
          * {
             font-family: 'Noto Serif KR', serif;
@@ -23,12 +23,8 @@
          body{
              background-image: linear-gradient(224deg, rgba(189,193 ,228), rgba(212,184 ,192, 1.73));
              background-size: contain;
-             animation: animate 15s linear infinite;
-             animation-duration: calc(500s)
          }
-         @keyframes animate {
 
-         }
         .profileShow {
             width: 70%;
             margin: 20px auto 0px auto;
@@ -42,7 +38,7 @@
 
         .post {
             width: 95%;
-            max-width: 500px;
+            max-width: 540px;
             height: 40vh;
             margin: 10px auto 10px auto;
             padding: 40px;
@@ -217,8 +213,8 @@
 <button onclick="open_post_box()" class="btn btn-secondary">post</button>
 <div class="post" id="post-box">
     <select class="form-select" id="country">
-      <option selected>어떤거 드셨나요?</option>
-      <option value="0">한식</option>
+      <option selected disabled>어떤거 드셨나요?</option>
+      <option selected value="0">한식</option>
       <option value="1">일식</option>
       <option value="2">중식</option>
       <option value="3">기타</option>
