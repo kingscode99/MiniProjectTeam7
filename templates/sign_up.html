@@ -22,12 +22,13 @@
         * {
             font-family: 'Noto Serif KR', serif;
         }
-        .thema {
+        body {
 
             width: 100%;
             max-height: 95%;
             height: 1000px;
             margin: auto;
+            margin-top: 7%;
 
             background-image: linear-gradient(66deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
             url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQLxE7TesWgkcsH2wKRMz3WQO4sKNzt5_NuA&usqp=CAU');
@@ -86,9 +87,7 @@
         }
 
         .sign_box {
-
             margin-top: 10px;
-
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -97,9 +96,10 @@
 
         .sign_box > button {
             margin-right: 5px;
-
-
         }
+        .button{display: flex;flex-direction: row}
+        .btn{margin:5px 20px}
+
     </style>
     <script>
         function save_user() {
@@ -151,25 +151,27 @@
     <div class="sign_box">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_id" placeholder="name@example.com">
-            <label for="floatingInput">아이디</label>
+            <label for="user_id">아이디</label>
         </div>
         <div class="form-floating">
             <input type="password" class="form-control" id="user_pw" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <label for="user_pw">Password</label>
         </div>
         <P>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_name" placeholder="name@example.com">
-            <label for="floatingInput">이름을 입력하세요</label>
+            <label for="user_name">이름을 입력하세요</label>
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_nick" placeholder="name@example.com">
-            <label for="floatingInput">닉네임을 입력하세요</label>
+            <label for="user_nick">닉네임을 입력하세요</label>
         </div>
+        <div class="button">
         <br>
         <button onclick="save_user()" type="button" class="btn btn-secondary">회원 가입</button>
         <br>
         <button onclick="retern_page()" type="button" class="btn btn-secondary">취소</button>
+            </div>
     </div>
 
 </div>
