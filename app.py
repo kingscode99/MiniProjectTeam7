@@ -7,8 +7,8 @@ from pymongo import MongoClient
 
 import certifi
 ca = certifi.where();
-client = MongoClient("mongodb+srv://test:sparta@cluster0.b6vbteu.mongodb.net/cluster0?retryWrites=true&w=majority", tlsCAFile=ca)
-db = client.dbsparta
+client = MongoClient("mongodb+srv://lcoeda:@Cluster1.vpb9hys.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+db = client.test
 
 SECRET_KEY = 'SPARTA'
 
@@ -65,7 +65,6 @@ def sign_up():
         return jsonify({'msg': '가입 완료!'})
     else:
         return jsonify({'msg': '중복된 아이디 입니다'})
-
 
 @app.route('/api/login', methods=["POST"])
 def login():
