@@ -65,3 +65,5 @@ AWS EC2 (Ubuntu 20.04 LTS)
 ⑥ 배경화면 내에서 움직이는 요소 추가 완료
 
 ⑦ 작성자들이 먹은 음식의 나라 를 보여주는 항목 구현 완료
+
+<img width="80%" src="https://user-images.githubusercontent.com/16822641/109461495-913fc480-7aa5-11eb-9d0e-aff762669f98.gif"/>
